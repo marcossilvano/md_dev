@@ -14,23 +14,29 @@ extern fix16 offset_speed[SCREEN_H/TILE_W];
 ////////////////////////////////////////////////////////////////////////////
 // INITIALIZATION
 
+inline void LEVEL_generate_collision_map_preview() {
+	for (u8 x = 0; x < SCREEN_W/TILE_W; x++) {
+		for (u8 y = 0; y < SCREEN_H/TILE_W; y++) {									          // 0000 0111 1111 1111
+			collision_map[x][y] = (MAP_getTile(map, x*TILE_W/8, y*TILE_W/8) & 0x07FF) % 10;   //    0    7    F    F
+		}
+	}
+}
+
 inline void LEVEL_generate_collision_map(u16* ground_tiles, u16 n) {
 	for (u8 x = 0; x < SCREEN_W/TILE_W; x++) {
 		for (u8 y = 0; y < SCREEN_H/TILE_W; y++) {
-			//collision_map[x][y] = (MAP_getTile(map, x*TILE_W/8, y*TILE_W/8) & 0x07FF? 1 : 0);
 			u16 tile_index = MAP_getTile(map, x*TILE_W/8, y*TILE_W/8) & 0x07FF;
-
 			collision_map[x][y] = 0;
 			
-			if (tile_index != 0) {
-				KLog_U1("Tile index: ", tile_index);
+			// if (tile_index != 0) {
+				KLog_U1("No zero tile: ", tile_index);
 				for (u8 i = 0; i < n; i++) {
 					if (tile_index == ground_tiles[i]) {
 						collision_map[x][y] = 1;
 						break;
 					}
 				}
-			}
+			// }
 		}
 	}	
 }
@@ -51,9 +57,15 @@ inline void LEVEL_init(u16* ind) {
 	*ind += level1_tileset.numTile;
 	MAP_scrollTo(map, 0, 0); // MAP_scrollToEx?
 
-	VDP_setScrollingMode(HSCROLL_TILE, VSCROLL_2TILE);
+	VDP_setScrollingMode(HSCROLL_TILE, VSCROLL_COLUMN);
 
-	LEVEL_generate_collision_map((u16[]){1, 4, 5, 8}, 4);
+	/* IMPORTANTE
+	   Os indices dos tiles de colisao podem ser obtidos pelo Gens em:
+	   	CPU > Debug > Genesis > VDP
+	   OBS: O SGDK considera o índice da tabela de tiles - 1.
+	 */
+	LEVEL_generate_collision_map((u16[]){0, 1, 2, 3, 4, 9, 10, 11, 12, 13}, 10);
+	//LEVEL_generate_collision_map_preview();
 }
 
 ////////////////////////////////////////////////////////////////////////////

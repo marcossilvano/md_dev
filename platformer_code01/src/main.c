@@ -1,13 +1,16 @@
 /**
  * Para compilar & rodar:
  * ----------------------
+ *   OBS: instalar extensao Genesis Code
+ * 
  *   CTRL + SHIFT + B   (gera out/rom.bin )
  *   [F1], Run Task, Run Gens
  * 
  * Para fazer:
  * ----------------------
- * @todo Carregar TMX e Tileset
  * @todo Câmera (level maior)
+ * @todo Modificar geracao do mapa de colisao para level maior (mais de uma tela)
+ * @todo Considerar a posicao no mapa do jogador na verificacao de colisao com tiles (posicao no mapa vs posicao na tela)
  * @todo Adicionar obstaculos
  * @todo Adicionar inimigos
  * @todo Fundo com parallax
@@ -129,7 +132,7 @@ int main()
 	
 	//VDP_setBackgroundColor(PAL_getColor(5));
 	draw_info();
-	//LEVEL_draw_collision_map();
+	LEVEL_draw_collision_map();
 
 	while (1)
 	{
