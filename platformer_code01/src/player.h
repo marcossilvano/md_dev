@@ -66,6 +66,23 @@ inline bool PLAYER_on_floor(GameObject* obj) {
 	}
 }
 
+inline void PLAYER_map_clamp(GameObject* obj) {
+	// horizontal
+	if (obj->x < 0) {
+		obj->x = 0;	
+	} else 
+	if (obj->x > MAP_W - obj->w) {
+		obj->x = MAP_W - obj->w;
+	}
+
+	if (obj->y < 0) {
+		obj->y = 0;	
+	} else 
+	if (obj->y > MAP_H - obj->h) {
+		obj->y = MAP_H - obj->h;
+	}
+}
+
 inline void PLAYER_wrap_bounds(GameObject* obj) {
 	// horizontal
 	if (obj->x < -obj->w/2) {
@@ -157,13 +174,35 @@ inline void PLAYER_update()
 	PLAYER_update_pos(&player);
 
 	// wrap at screen bounds
-	PLAYER_wrap_bounds(&player);
+	//PLAYER_wrap_bounds(&player);
+	PLAYER_map_clamp(&player);
 
 	// animate
 	PLAYER_animate();
 
 	// update VDP/SGDK
-	SPR_setPosition(player.sprite, player.x, player.y);
+	//SPR_setPosition(player.sprite, player.x, player.y);
+	SPR_setHFlip(player.sprite, player.flip);
+	SPR_setAnim(player.sprite, player.anim);
+}
+
+inline void PLAYER_update_nocollision()
+{
+	// input
+	PLAYER_get_input();
+
+	// movement
+	player.x = player.x + fix16ToInt(player.speed_x);
+	player.y = player.y + fix16ToInt(player.speed_y);
+	PLAYER_update_pos(&player);
+
+	// animate
+	PLAYER_animate();
+
+	PLAYER_map_clamp(&player);
+
+	// update VDP/SGDK
+	//SPR_setPosition(player.sprite, player.x, player.y);
 	SPR_setHFlip(player.sprite, player.flip);
 	SPR_setAnim(player.sprite, player.anim);
 }

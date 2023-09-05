@@ -6,7 +6,7 @@
 #include "resources.h"
 
 extern Map* map;
-extern u8 collision_map[MAP_W/TILE_W][MAP_H/TILE_W]; // screen tile 40x28
+extern u8 collision_map[MAP_TILES_W][MAP_TILES_H]; // map tiles 120x50
 
 extern fix16 offset_mask[SCREEN_H/TILE_W]; // 224 px / 8 px = 28
 extern fix16 offset_speed[SCREEN_H/TILE_W];
@@ -15,16 +15,16 @@ extern fix16 offset_speed[SCREEN_H/TILE_W];
 // INITIALIZATION
 
 inline void LEVEL_generate_collision_map_preview() {
-	for (u8 x = 0; x < SCREEN_W/TILE_W; x++) {
-		for (u8 y = 0; y < SCREEN_H/TILE_W; y++) {									          // 0000 0111 1111 1111
+	for (u8 x = 0; x < MAP_TILES_W; x++) {
+		for (u8 y = 0; y < MAP_TILES_H; y++) {									          // 0000 0111 1111 1111
 			collision_map[x][y] = (MAP_getTile(map, x*TILE_W/8, y*TILE_W/8) & 0x07FF) % 10;   //    0    7    F    F
 		}
 	}
 }
 
 inline void LEVEL_generate_collision_map(u16* ground_tiles, u16 n) {
-	for (u8 x = 0; x < SCREEN_W/TILE_W; x++) {
-		for (u8 y = 0; y < SCREEN_H/TILE_W; y++) {
+	for (u8 x = 0; x < MAP_TILES_W; x++) {
+		for (u8 y = 0; y < MAP_TILES_H; y++) {
 			u16 tile_index = MAP_getTile(map, x*TILE_W/8, y*TILE_W/8) & 0x07FF;
 			collision_map[x][y] = 0;
 			

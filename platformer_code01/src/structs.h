@@ -8,8 +8,11 @@
 #define SCREEN_W 320
 #define SCREEN_H 224
 
-#define MAP_W 120* TILE_W
-#define MAP_H 50 * TILE_W
+#define MAP_TILES_W 120
+#define MAP_TILES_H 50
+
+#define MAP_W MAP_TILES_W * TILE_W
+#define MAP_H MAP_TILES_H * TILE_W
 
 #define PAL_PLAYER 		PAL0
 #define PAL_LEVEL 		PAL1

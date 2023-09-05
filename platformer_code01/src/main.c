@@ -38,10 +38,10 @@ s16 map_scroll_y = 0;
 // DRAWING AND FX
 
 inline void draw_position()  {
-	intToStr(player.x, text, 2);
+	intToStr(player.x, text, 6);
 	VDP_drawText(text, 5, 23);
 
-	intToStr(player.y, text, 2);
+	intToStr(player.y, text, 6);
 	VDP_drawText(text, 5, 24);
 }
 
@@ -80,42 +80,36 @@ inline void rotate_colors_right(u8 left_index, u8 right_index) {
 // MAIN CODE
 
 inline void CAMERA_follow(GameObject* obj) {
-	map_scroll_x = obj->x - SCREEN_W/2;
-	map_scroll_y = obj->y - SCREEN_H/2;
-	
-	map_scroll_x = clamp(map_scroll_x, 0, map_scroll_x - MAP_W);
-	map_scroll_y = clamp(map_scroll_y, 0, map_scroll_y - MAP_H);
+	map_scroll_x = obj->x - SCREEN_W/2 + obj->w/2;
+	//map_scroll_y = obj->y - SCREEN_H/2;
+
+	map_scroll_x = clamp(map_scroll_x, 0, MAP_W - SCREEN_W);
+	map_scroll_y = clamp(map_scroll_y, 0, MAP_H - SCREEN_H);
+
+	MAP_scrollTo(map, map_scroll_x, map_scroll_y); 	
 }
 
-inline void update() {
-/**
- * 
- * REMOVER DUPLICATAS NOS TILES 8X8
- * ATUALIZAR A LISTA DE TILES QUE SAO CHAO!
- * 
- */
-
-
-	PLAYER_update();
-	//SPR_setPosition(player.sprite, player.x - map_scroll_x, player.y - map_scroll_y);
-
-	CAMERA_follow(&player);
-/*
+inline void CAMERA_move() {
 	u16 value = JOY_readJoypad(JOY_1);
 	
 	if (value & BUTTON_LEFT) {
 		map_scroll_x -= 3;
-		map_scroll_x = clamp(map_scroll_x, 0, map_scroll_x - MAP_W);
-	}
-	else
+	} else
 	if (value & BUTTON_RIGHT) {
 		map_scroll_x += 3;
-		map_scroll_x = clamp(map_scroll_x, 0, map_scroll_x - MAP_W);
 	} 
+	map_scroll_x = clamp(map_scroll_x, 0, MAP_W - SCREEN_W);
 
-	MAP_scrollTo(map, map_scroll_x, map_scroll_y); 
-*/
+	MAP_scrollTo(map, map_scroll_x, map_scroll_y); 	
+}
+
+inline void update() {
+	// PLAYER_update_nocollision();
+	PLAYER_update();
+	CAMERA_follow(&player);
+	//SPR_setPosition(player.sprite, player.x - map_scroll_x, player.y - map_scroll_y);
 	
+	//CAMERA_move();
 }
 
 int main()
@@ -132,7 +126,7 @@ int main()
 	
 	//VDP_setBackgroundColor(PAL_getColor(5));
 	draw_info();
-	LEVEL_draw_collision_map();
+	//LEVEL_draw_collision_map();
 
 	while (1)
 	{
@@ -149,6 +143,8 @@ int main()
 		// update physics
 		// update animations
 		// update sprites
+		
+		SPR_setPosition(player.sprite, player.x-map_scroll_x, player.y-map_scroll_y);
 		SPR_update();
 
 		SYS_doVBlankProcess();
