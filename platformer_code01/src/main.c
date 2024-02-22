@@ -8,15 +8,22 @@
  * 
  * Para fazer:
  * ----------------------
- * @todo Câmera (level maior)
- * @todo Modificar geracao do mapa de colisao para level maior (mais de uma tela)
- * @todo Considerar a posicao no mapa do jogador na verificacao de colisao com tiles (posicao no mapa vs posicao na tela)
+ * @todo Fundo com parallax
+ * @todo Controle de DOWN, PRESSED e RELEASED para botoes
+ * @todo Colisão com tiles sólidos
  * @todo Adicionar obstaculos
  * @todo Adicionar inimigos
- * @todo Fundo com parallax
- * @todo Impedir que saia pelo topo da tela
- * @todo Controle de DOWN, PRESSED e RELEASED para botoes
- */
+ *
+ * Feito:
+ * ----------------------
+ * Carrega mapa TMX
+ * Controle e pulo do personagem
+ * Câmera no level
+ * Câmera segue jogador
+ * Impedir que o personagem saia do mapa (laterais)
+ * Impedir que saia pelo topo da tela
+ * Geração de mapa de colisão a partir do tmx * 
+  */
 #include <genesis.h>
 
 #include "sprite_eng.h"

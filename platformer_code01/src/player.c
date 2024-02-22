@@ -38,7 +38,6 @@ void PLAYER_check_floor(GameObject* obj) {
 	} else {
 		on_floor = FALSE;
 	}
-
 }
 
 bool PLAYER_on_floor(GameObject* obj) {
