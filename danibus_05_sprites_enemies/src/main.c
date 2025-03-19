@@ -139,7 +139,7 @@ static void init_player() {
 	sonic.y = 155;
 	sonic.flip = FALSE;
 	sonic.anim = ANIM_STAND;
-	VDP_setPalette(PAL2, spr_sonic.palette->data);
+	PAL_setPalette(PAL2, spr_sonic.palette->data, DMA);
 	sonic.sprite = SPR_addSprite(&spr_sonic, sonic.x, sonic.y, TILE_ATTR(PAL2, FALSE, FALSE, sonic.flip));
 }
 
@@ -154,7 +154,7 @@ static inline void init_enemy(u8 idx, s16 x, s16 y, s16 speed_x, s16 speed_y, u1
 }
 
 static inline void init_enemies() {
-	VDP_setPalette(PAL3, spr_enemy.palette->data);
+	PAL_setPalette(PAL3, spr_enemy.palette->data, DMA);
 
 	init_enemy(0, 128, 164, 1, 0, CRAB_ANIM);
 	
@@ -168,13 +168,13 @@ static inline void init_enemies() {
 static inline void init_background() {
 	u16 ind = 1; // index for tiles in VRAM (first tile reserved for SGDK)
 	
-	VDP_setPalette(PAL0, img_bg1.palette->data);
-	VDP_setPalette(PAL1, img_bg2.palette->data);
+	PAL_setPalette(PAL0, img_bg1.palette->data, DMA);
+	PAL_setPalette(PAL1, img_bg2.palette->data, DMA);
 	
-	VDP_drawImageEx(VDP_BG_B, &img_bg1, TILE_ATTR_FULL(PAL0, 0, 0, 0, ind), 0, 0, 0, DMA);
+	VDP_drawImageEx(BG_B, &img_bg1, TILE_ATTR_FULL(PAL0, 0, 0, 0, ind), 0, 0, 0, DMA);
 	ind += img_bg1.tileset->numTile;
 
-	VDP_drawImageEx(VDP_BG_A, &img_bg2, TILE_ATTR_FULL(PAL1, 0, 0, 0, ind), 0, 0, 0, DMA);
+	VDP_drawImageEx(BG_A, &img_bg2, TILE_ATTR_FULL(PAL1, 0, 0, 0, ind), 0, 0, 0, DMA);
 	ind += img_bg2.tileset->numTile;	
 }
 
@@ -182,7 +182,7 @@ int main() {
 	SYS_disableInts();
 
 	VDP_setScreenWidth320(); // 320x240
-	SPR_init(0, 0, 0);
+	SPR_init();
 
 	// Initializes Background
 	init_background();

@@ -154,7 +154,7 @@ static inline void init_megaman() {
 	under color 15 -> shadowed
 	under color 14 -> highlighted
 */
-	VDP_setPalette(PAL2, spr_megaman.palette->data);
+	PAL_setPalette(PAL2, spr_megaman.palette->data, DMA);
 
 //	SPR_loadAllFrames(&spr_megaman, ind, NULL);
 //	SPR_setFrameChangeCallback(megaman.sprite, &frameChanged);
@@ -182,14 +182,14 @@ static void init_player() {
 	sonic.y = 155;
 	sonic.flip = FALSE;
 	sonic.anim = ANIM_STAND;
-	VDP_setPalette(PAL3, spr_sonic_sh.palette->data);
+	PAL_setPalette(PAL3, spr_sonic_sh.palette->data, DMA);
 	sonic.sprite = SPR_addSprite(&spr_sonic_sh, sonic.x, sonic.y, TILE_ATTR(PAL3, FALSE, FALSE, sonic.flip));
 }
 
 
 static inline void init_background() {
-	VDP_setPalette(PAL0, img_bg1.palette->data);
-	VDP_setPalette(PAL1, img_bg2.palette->data);
+	PAL_setPalette(PAL0, img_bg1.palette->data, DMA);
+	PAL_setPalette(PAL1, img_bg2.palette->data, DMA);
 	
 	VDP_drawImageEx(BG_B, &img_bg1, TILE_ATTR_FULL(PAL0, 0, 0, 0, ind), 0, 0, 0, DMA);
 	ind += img_bg1.tileset->numTile;
@@ -202,7 +202,7 @@ int main() {
 	SYS_disableInts();
 
 	VDP_setScreenWidth320(); // 320x240
-	SPR_init(0, 0, 0);
+	SPR_init();
 
 	VDP_setHilightShadow(TRUE);
 
