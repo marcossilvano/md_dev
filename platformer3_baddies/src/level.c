@@ -3,6 +3,16 @@
 Map* map;
 Map* map_bg;
 u8 collision_map[MAP_W/TILE_W][MAP_H/TILE_W] = {0}; // size of screen
+u8 tile_frame = 0;
+
+const u8* const animated_tiles_map[NUMBER_OF_LEVELS] = {
+	(u8[]){1,2,3,4,5,6}
+
+	// animation delay
+	// TileSet pointer
+	// tile indexes to be replaced
+	// 
+};
 
 // fix16 offset_mask[SCREEN_H/TILE_W] = {0}; // 224 px / 8 px = 28
 // fix16 offset_speed[SCREEN_H/TILE_W];
@@ -47,7 +57,6 @@ static u16 LEVEL_load_animated_tiles(u16 ind) {
 }
 
 u16 LEVEL_init(u16 ind) {
-
 	PAL_setPalette(PAL_MAP, level1_palette.data, DMA);
 	VDP_loadTileSet(&level1_tileset, ind, DMA);
 	map = MAP_create(&level1_map, BG_A, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
@@ -92,6 +101,18 @@ u8 LEVEL_check_wall(GameObject* obj) {
 
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
+
+void LEVEL_animate_tiles() {
+	tile_frame = !tile_frame;
+			
+	if (tile_frame) {
+		VDP_loadTileData( (const u32 *)animated_tiles2.tiles, 0x0F, 2, DMA_QUEUE);
+		VDP_loadTileData( (const u32 *)animated_tiles2.tiles+16, 0x1B, 2, DMA_QUEUE);
+	} else {
+		VDP_loadTileData( (const u32 *)animated_tiles2.tiles+32, 0x0F, 2, DMA_QUEUE);
+		VDP_loadTileData( (const u32 *)animated_tiles2.tiles+48, 0x1B, 2, DMA_QUEUE);
+	}
+}
 
 void LEVEL_draw_collision_map() {
 	for (u8 x = 0; x < SCREEN_W/TILE_W; ++x) {

@@ -78,19 +78,19 @@
             "scaleInEditor": 8
         },
         "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1.tmx": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 423.33333333333326,
-                "y": 269.33333333333337
+                "x": 1424.5,
+                "y": 295
             }
         },
         "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1_bg.tmx": {
             "scale": 1.7390277777777776,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 356.23352767350855,
-                "y": 199.82429518409074
+                "x": 362.27138407475445,
+                "y": 213.33759284402205
             }
         },
         "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1_tiles.tsx": {

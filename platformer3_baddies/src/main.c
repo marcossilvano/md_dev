@@ -53,11 +53,10 @@ u16 bg_scroll = 0;
 #define MAX_OBJ 1
 GameObject objects[MAX_OBJ];
 
-u16* spawn_map[15][7] = {
+const u16* const spawn_map[15][7] = {
     { (u16[]){6, 1, 2, 3, 4, 5, 6}, (u16[]){4, 1, 2, 3, 4}, (u16[]){3, 1, 2, 3} },
     { (u16[]){6, 1, 2, 3, 4, 5, 6}, (u16[]){4, 1, 2, 3, 4}, (u16[]){3, 1, 2, 3} }
 };
-
 
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
@@ -167,8 +166,6 @@ void hud_init() {
 	// LEVEL_draw_collision_map();
 }
 
-u8 tile_frame = 0;
-
 int main(bool resetType)
 {
 	// Soft reset doesn't clear RAM. Can lead to bugs.
@@ -191,16 +188,7 @@ int main(bool resetType)
 			rotate_colors_left(PAL_MAP*16 + 5, PAL_MAP*16 + 7);
 			rotate_colors_left(PAL_BACKGROUND*16 + 5, PAL_BACKGROUND*16 + 7);
 			color_delay = 5;
-
-			tile_frame = !tile_frame;
-
-			if (tile_frame) {
-				VDP_loadTileData( (const u32 *)animated_tiles2.tiles, 0x0F, 2, DMA_QUEUE);
-				VDP_loadTileData( (const u32 *)animated_tiles2.tiles+32, 0x1B, 2, DMA_QUEUE);
-			} else {
-				VDP_loadTileData( (const u32 *)animated_tiles2.tiles+16, 0x0F, 2, DMA_QUEUE);
-				VDP_loadTileData( (const u32 *)animated_tiles2.tiles+48, 0x1B, 2, DMA_QUEUE);
-			}
+			LEVEL_animate_tiles();
 		}
 		
 		for (u8 i = 0; i < MAX_OBJ; ++i) {
