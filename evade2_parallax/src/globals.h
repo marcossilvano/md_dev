@@ -11,6 +11,9 @@ extern char text[5];
 #define SCREEN_W 320
 #define SCREEN_H 224
 
+#define SCREEN_W_F16 FIX16(320)
+#define SCREEN_H_F16 FIX16(224)
+
 #define SCREEN_TILES_H SCREEN_H / 8
 
 #define MAP_TILES_W 120

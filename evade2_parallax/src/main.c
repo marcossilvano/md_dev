@@ -43,14 +43,6 @@ inline void draw_info() {
 	VDP_drawText("  DPAD - moves the ship", 2, 4);
 }
 
-inline void draw_arrow() {
-	VDP_drawText(" ", 1, 2);
-	VDP_drawText(" ", 1, 3);
-	VDP_drawText(" ", 1, 4);
-
-	VDP_drawText(">", 1, 2 + move_type);
-}
-
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOGIC
 

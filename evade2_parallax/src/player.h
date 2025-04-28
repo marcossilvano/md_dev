@@ -25,10 +25,7 @@ u16 PLAYER_init(u16 ind);
 
 void PLAYER_update();
 
-void PLAYER_limit_speed();
-
 void PLAYER_get_input_dir8();
 void PLAYER_get_input_dir4();
-void PLAYER_get_input_turn_move();
 
 #endif // _PLAYER_H_

@@ -44,8 +44,19 @@ void GAMEOBJECT_clamp_screen(GameObject* obj) {
 }
 
 void GAMEOBJECT_wrap_screen(GameObject* obj) {
-	WRAP(obj->x, -fix16Div(obj->w, 2), FIX16(SCREEN_W) - obj->w/2)
-	WRAP(obj->y, -fix16Div(obj->h, 2), FIX16(SCREEN_H) - obj->h/2)
+	// if (fix16Int(obj->x) > SCREEN_W - obj->w/2) {
+	// 	obj->x -= FIX16(SCREEN_W);
+	// } else
+	// if (fix16Int(obj->x) < -obj->w/2) {
+	// 	obj->x += FIX16(SCREEN_W);
+	// }
+
+	// if (fix16Int(obj->y) > SCREEN_H - obj->h/2) {
+	// 	obj->y = FIX16(obj->h/2);
+	// }	
+	
+	WRAP(obj->x, -fix16Div(obj->w, 2), FIX16(SCREEN_W - obj->w/2))
+	WRAP(obj->y, -fix16Div(obj->h, 2), FIX16(SCREEN_H - obj->h/2))
 }
 
 void GAMEOBJECT_bounce_off_screen(GameObject* obj) {
