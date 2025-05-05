@@ -12,9 +12,12 @@
  *  F1 -> Genesis Code Compile Project				<< compilar
  *  F1 -> Genesis Code Compiler & Run Project		<< compilar & executar
  * 
- * Feito:
- * ----------------------
-  */
+  * LINUX
+ * ==================================================================
+ * Considerando que o caminho seja ~/sgdk200, para fazer build:
+ * 
+ * $ make GDK=~/sgdk200 -f ~/sgdk200/makefile_wine.gen
+ */
 #include <genesis.h>
 #include <sprite_eng.h>
 
@@ -31,6 +34,7 @@ u16 ind = TILE_USER_INDEX;
 
 #define PLANE_W FIX16(256)
 
+// parallax scroling
 fix16 offset_pos[SCREEN_TILES_H] = {0}; // 224 px / 8 px = 28
 fix16 offset_speed[SCREEN_TILES_H] = {0};
 s16 values[SCREEN_TILES_H];
@@ -40,7 +44,7 @@ s16 values[SCREEN_TILES_H];
 
 inline void draw_info() {
 	VDP_drawText("PARALLAX SCROLLING", 1, 1);
-	VDP_drawText("  DPAD - moves the ship", 2, 4);
+	VDP_drawText("DPAD - moves the ship", 3, 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -67,7 +71,7 @@ void BACKGROUND_update() {
 		values[i] = fix16ToInt(offset_pos[i]);
 	}
 
-	VDP_setHorizontalScrollTile(BG_B, 0, values, SCREEN_TILES_H, CPU);
+	VDP_setHorizontalScrollTile(BG_B, 0, values, SCREEN_TILES_H, DMA);
 }
 
 inline void game_update() {
@@ -80,7 +84,12 @@ inline void game_update() {
 ////////////////////////////////////////////////////////////////////////////
 // GAME INIT
 
-void BACKGROUND_init() {
+u16 BACKGROUND_init() {
+	VDP_setPlaneSize(32,32, TRUE);
+
+	// PAL_setPalette(PAL_BACKGROUND, img_background.palette->data, CPU);
+	VDP_drawImageEx(BG_B, &img_background, TILE_ATTR_FULL(PAL_BACKGROUND, 0, 0, 0, ind), 0, 0, TRUE, DMA);
+
 	VDP_setScrollingMode(HSCROLL_TILE , VSCROLL_COLUMN);
 	
 	f16 speed = FIX16(-0.05);
@@ -89,22 +98,16 @@ void BACKGROUND_init() {
 		set_offset_speed(SCREEN_TILES_H-i-1, 1, speed);
 		speed += FIX16(-0.05);
 	}	
+	
+	return img_background.tileset->numTile;
 }
 
 void game_init() {
 	VDP_setScreenWidth320();
-	// VDP_setPlaneSize(64, 64, TRUE);
 	SPR_init();
-	VDP_setPlaneSize(32,32, TRUE);
 
-	// PAL_setPalette(PAL_BACKGROUND, img_background.palette->data, CPU);
-	VDP_drawImageEx(BG_B, &img_background, TILE_ATTR_FULL(PAL_BACKGROUND, 0, 0, 0, ind), 0, 0, TRUE, DMA);
-	ind += img_background.tileset->numTile;
-	// KLog_U1("bkg tiles: ", img_background.tileset->numTile);
-
+	ind += BACKGROUND_init();
 	ind += PLAYER_init(ind);
-
-	BACKGROUND_init();
 	
 	// draw_info();
 }
@@ -120,6 +123,7 @@ int main(bool resetType) {
 	
 	while (true) {
 		game_update();
+		
 		SPR_update();
 		SYS_doVBlankProcess();
 		// update VDP scroll

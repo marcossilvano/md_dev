@@ -2,21 +2,51 @@
 #include <maths.h>
 
 #include "player.h"
+#include "level.h"
 #include "utils.h"
 
 GameObject player;
-u8 move_type = 0;
 
 ////////////////////////////////////////////////////////////////////////////
-// INITIALIZATION
+// INIT
 
 u16 PLAYER_init(u16 ind) {
-	ind += GAMEOBJECT_init(&player, &spr_ship, FIX16(SCREEN_W/2-12), FIX16(SCREEN_H/2-12), ind);
+	ind += GAMEOBJECT_init(&player, &spr_ship, FIX16(SCREEN_W/2-12), FIX16(SCREEN_H/2-12), PAL_PLAYER, ind);
 	return ind;
 }
 
 ////////////////////////////////////////////////////////////////////////////
-// GAME LOOP/LOGIC
+// UPDATE
+
+void PLAYER_update() {
+	// input
+	PLAYER_get_input_dir8();
+	
+	// movement
+	player.next_x = player.x + player.speed_x;
+	player.next_y = player.y + player.speed_y;
+	// player.x = player.x + player.speed_x;
+	// player.y = player.y + player.speed_y;
+	
+	GAMEOBJECT_update_box(&player);
+	LEVEL_move_and_slide(&player);
+
+	player.x = player.next_x;
+	player.y = player.next_y;
+
+	if (LEVEL_check_wall(&player)) {
+		PAL_setColor(2, 0x888);
+	} else {
+		PAL_setColor(2, 0x0);
+	}
+
+	// GAMEOBJECT_wrap_screen(&player);
+	// GAMEOBJECT_clamp_screen(&player);
+	
+	// update VDP/SGDK
+	SPR_setPosition(player.sprite, fix16ToInt(player.x), fix16ToInt(player.y));
+	SPR_setAnim(player.sprite, player.anim);
+}
 
 /**
  * Get player input and set ship speed with:
@@ -115,33 +145,4 @@ void PLAYER_get_input_dir8() {
 		player.speed_y = PLAYER_SPEED;
 		player.anim = 6;
 	} 
-}
-
-// void PLAYER_get_input_dir8_2() {
-// 	Vect2D_s16 input;
-// 	input.x = key_down(JOY_1, BUTTON_RIGHT) - key_down(JOY_1, BUTTON_LEFT);
-// 	input.y = key_down(JOY_1, BUTTON_DOWN)  - key_down(JOY_1, BUTTON_UP);
-
-// 	// define player x,y speed by scaling the direction vector
-// 	player.speed_x += fix16Mul(  cosFix16(player.dir), player.speed );
-// 	player.speed_y += fix16Mul( -sinFix16(player.dir), player.speed );
-
-// 	// frame?
-// }
-
-void PLAYER_update() {	
-	// get input
-	PLAYER_get_input_dir8();
-		
-	// movement
-	player.x = player.x + player.speed_x;
-	player.y = player.y + player.speed_y;
-	
-	// wrap at screen bounds
-	GAMEOBJECT_wrap_screen(&player);
-	// GAMEOBJECT_clamp_screen(&player);
-	
-	// update VDP/SGDK
-	SPR_setPosition(player.sprite, fix16ToInt(player.x), fix16ToInt(player.y));
-	SPR_setAnim(player.sprite, player.anim);
 }

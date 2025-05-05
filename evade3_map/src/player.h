@@ -22,8 +22,9 @@ u16 PLAYER_init(u16 ind);
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC
 
-void PLAYER_animate();
-void PLAYER_get_input();
 void PLAYER_update();
+
+void PLAYER_get_input_dir8();
+void PLAYER_get_input_dir4();
 
 #endif // _PLAYER_H_

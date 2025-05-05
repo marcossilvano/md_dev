@@ -2,7 +2,7 @@
 #include "utils.h"
 
 ////////////////////////////////////////////////////////////////////////////
-// INITIALIZATION
+// INIT
 
 u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite, s16 x, s16 y, u8 pal, u16 ind) {
 	obj->x = x;
@@ -20,7 +20,7 @@ u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite,
 }
 
 ////////////////////////////////////////////////////////////////////////////
-// GAME LOOP/LOGIC
+// UPDATE
 
 /*
 inline void update_rect(GameObject* obj) {
@@ -32,8 +32,8 @@ inline void update_rect(GameObject* obj) {
 */
 
 void GAMEOBJECT_update_box(GameObject* obj) {
-	obj->right  = obj->x + obj->w;
-	obj->bottom = obj->y + obj->h;
+	obj->right  = fix16ToInt(obj->x) + obj->w - 1;
+	obj->bottom = fix16ToInt(obj->y) + obj->h - 1;
 }
 
 void GAMEOBJECT_clamp_screen(GameObject* obj) {

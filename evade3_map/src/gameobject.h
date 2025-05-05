@@ -9,6 +9,8 @@ typedef struct GameObject {
 	Sprite* sprite;
 	f16 x;
 	f16 y;
+	f16 next_x;
+	f16 next_y;
 	f16 speed_x;
 	f16 speed_y;
 	u8 w;
