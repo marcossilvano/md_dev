@@ -157,6 +157,7 @@ void LEVEL_move_and_slide(GameObject* obj) {
 		}
 	}
 
+	GAMEOBJECT_update_boundbox(obj->next_x, obj->next_y, obj);
 	/*
 	         left+w/2,
 	           top
@@ -168,19 +169,33 @@ void LEVEL_move_and_slide(GameObject* obj) {
 	       |         | 
 	       +---------+ 
 	*/
-
-	GAMEOBJECT_update_boundbox(obj->next_x, obj->next_y, obj);
-
 	if (obj->speed_y < 0) {        // moving up
 		if (LEVEL_wall_at(obj->box.left,  obj->box.top) || 
 			LEVEL_wall_at(obj->box.left + obj->w/2, obj->box.top) || 
-			LEVEL_wall_at(obj->box.right, obj->box.top)) {
+			LEVEL_wall_at(obj->box.right-1, obj->box.top)) {
 				obj->next_y = FIX16((obj->box.top/METATILE_W + 1) * METATILE_W);
 				collision_result |= COLLISION_TOP;
 		}
     }
-    else 
+	/*
+	         left+w/2,
+	           top
+    left,top    |    right,top
+	       |    |    |
+ 	       +---------+ 
+	       |         | 
+	       |         | 
+	       |         | 
+	       +---------+ 
+	*/
+	else
 	if (obj->speed_y > 0) {   // moving down
+		if (LEVEL_wall_at(obj->box.left,  obj->box.bottom) || 
+			LEVEL_wall_at(obj->box.left + obj->w/2, obj->box.bottom) || 
+			LEVEL_wall_at(obj->box.right-1, obj->box.bottom)) {
+				obj->next_y = FIX16((obj->box.top/METATILE_W) * METATILE_W);
+				collision_result |= COLLISION_BOTTOM;
+		}
     }
 }
 
