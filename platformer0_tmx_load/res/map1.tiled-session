@@ -8,6 +8,17 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx": {
+            "scale": 1.2723214285714284,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.22456140350886,
+                "y": 335.6070175438597
+            }
+        },
+        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_tiles.tsx": {
+            "scaleInDock": 1
+        },
         "D:/GitHub/md_dev/evade3_map/res/backgrounds/level1.tmx": {
             "scale": 1,
             "selectedLayer": 0,
@@ -31,8 +42,8 @@
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 362.6666666666667,
-                "y": 169.99999999999997
+                "x": 705.3333333333333,
+                "y": 205.99999999999997
             }
         },
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_tiles.tsx": {
@@ -175,6 +186,7 @@
     ],
     "project": "map1.tiled-project",
     "recentFiles": [
+        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx",
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_map.tmx",
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level2_map.tmx",
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_tiles.tsx",
@@ -185,8 +197,7 @@
         "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1_tiles_bg.tsx",
         "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1_tiles.tsx",
         "D:/GitHub/md_dev/platformer2_16tile/res/backgrounds/level1_tiles_bg.tsx",
-        "D:/GitHub/md_dev/platformer2_16tile/res/backgrounds/level1_tiles.tsx",
-        "D:/GitHub/md_dev/platformer2_16tile/res/backgrounds/level1_16x16.tmx"
+        "D:/GitHub/md_dev/platformer2_16tile/res/backgrounds/level1_tiles.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
