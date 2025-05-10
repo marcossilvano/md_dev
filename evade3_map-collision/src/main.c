@@ -84,6 +84,7 @@ void game_init() {
 	#endif
 
 	ind += LEVEL_init(ind);
+	LEVEL_generate_screen_collision_map(0, 5);
 
 	#ifdef DEBUG
 	LEVEL_draw_collision_map();

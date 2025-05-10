@@ -22,9 +22,6 @@ u16 LEVEL_init(u16 ind) {
 	// VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
 	
 	ind += level1_tiles.numTile;
-	//LEVEL_generate_collision_map((u16[]){0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}, 16);
-	
-	LEVEL_generate_screen_collision_map(0, 5);
 
 	return ind;
 }
@@ -70,62 +67,18 @@ u8 LEVEL_check_wall(GameObject* obj) {
 	return false;
 }
 
-/*
-inline bool move_and_slide(GameObject* obj) {
-    set_palette_entry(0, 1, tiles1_palette[1]);
-
-    n = (obj->y + obj->height) >> 4;
-    p = (obj->y + (obj->height >> 1)) >> 4;
-
-    if (obj->spdx > 0) {      // moving right
-        m = (obj->nextx + obj->width -1) >> 4;
-        if (map[(obj->y+1) >> 4][m] || map[p][m] || map[n][m]) {
-            obj->nextx = (m << 4) - obj->width;
-            set_palette_entry(0, 1, 0b00000011);
-        }
-    }
-    else if (obj->spdx < 0) { // moving left
-        m = obj->nextx >> 4;
-        if (map[(obj->y+1) >> 4][m] || map[p][m] || map[n][m]) {
-            obj->nextx = (m + 1) << 4;
-            set_palette_entry(0, 1, 0b00000011);
-        }
-    }
-
-    m = (obj->nextx + obj->width -1) >> 4; // update next x position
-
-    if (obj->spdy > 0) {      // moving down
-        n = (obj->nexty + obj->height) >> 4;
-        if (map[n][obj->nextx >> 4] || map[n][m]) {
-            obj->nexty = (n << 4) - obj->height - 1;
-            set_palette_entry(0, 1, 0b00000011);
-        }
-    }
-    else if (obj->spdy < 0) { // moving up
-        n = (obj->nexty+1) >> 4;
-        if (map[n][obj->nextx >> 4] || map[n][m]) {
-            obj->nexty = ((n + 1) << 4) - 1;
-            set_palette_entry(0, 1, 0b00000011);
-        }
-    }
-}
-*/
-
 /**
  * Checks and resolves wall collisions. *  
  * OBS:
- * - Must call GAMEOBJECT_update_boundbox before this function.
- * - Collistion result can be found with get_collision_result()
+ * - To access collision result, use LEVEL_collision_result()
  */ 
 void LEVEL_move_and_slide(GameObject* obj) {
 	collision_result = 0;
-	// n = (obj->y + obj->height) >> 4;
-    // p = (obj->y + (obj->height >> 1)) >> 4;
-
 	GAMEOBJECT_update_boundbox(obj->next_x, obj->y, obj);
+
 	/*
 	+---------+  <- right,top
-	|         |     					} up to 16 px
+	|         |     				} up to 16 px
 	|         |  <- right,top+h/2
 	|         |      				} up to 16 px
 	+---------+  <- right, bottom
@@ -133,7 +86,7 @@ void LEVEL_move_and_slide(GameObject* obj) {
 	if (obj->speed_x > 0) {				// moving right
 		if (LEVEL_wall_at(obj->box.right, obj->box.top) || 
 	    	LEVEL_wall_at(obj->box.right, obj->box.top + obj->h/2) || 
-			LEVEL_wall_at(obj->box.right, obj->box.bottom)) {
+			LEVEL_wall_at(obj->box.right, obj->box.bottom-1)) {
 				obj->next_x = FIX16(obj->box.right/METATILE_W * METATILE_W - obj->w);
 				collision_result |= COLLISION_RIGHT;
 		}
@@ -147,13 +100,11 @@ void LEVEL_move_and_slide(GameObject* obj) {
 	*/
 	else 
 	if (obj->speed_x < 0) {			// moving left
-		KLog_f1("collision, speed: ", obj->speed_x);
 		if (LEVEL_wall_at(obj->box.left, obj->box.top) || 
 			LEVEL_wall_at(obj->box.left, obj->box.top + obj->h/2) || 
-			LEVEL_wall_at(obj->box.left, obj->box.bottom)) {
+			LEVEL_wall_at(obj->box.left, obj->box.bottom-1)) {
 				obj->next_x = FIX16((obj->box.left/METATILE_W + 1) * METATILE_W);
 				collision_result |= COLLISION_LEFT;
-				// KLog_f1("collision, speed: ", obj->speed_x);
 		}
 	}
 
@@ -193,15 +144,11 @@ void LEVEL_move_and_slide(GameObject* obj) {
 		if (LEVEL_wall_at(obj->box.left,  obj->box.bottom) || 
 			LEVEL_wall_at(obj->box.left + obj->w/2, obj->box.bottom) || 
 			LEVEL_wall_at(obj->box.right-1, obj->box.bottom)) {
-				obj->next_y = FIX16((obj->box.top/METATILE_W) * METATILE_W);
+				obj->next_y = FIX16((obj->box.bottom/METATILE_W) * METATILE_W - obj->h);
 				collision_result |= COLLISION_BOTTOM;
 		}
     }
 }
-
-/*
-
-*/
 
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX

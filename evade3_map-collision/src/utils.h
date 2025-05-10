@@ -5,7 +5,7 @@
 #include <sprite_eng.h>
 #include "globals.h"
 
-#define DEBUG
+// #define DEBUG
 
 extern u8 buttons[NUMBER_OF_JOYPADS];
 extern u8 buttons_old[NUMBER_OF_JOYPADS];

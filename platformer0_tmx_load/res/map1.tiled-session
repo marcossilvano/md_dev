@@ -3,17 +3,17 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_map.tmx",
+    "activeFile": "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx": {
-            "scale": 1.2723214285714284,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.22456140350886,
-                "y": 335.6070175438597
+                "x": 288,
+                "y": 125
             }
         },
         "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_tiles.tsx": {
@@ -182,7 +182,7 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
-        "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_map.tmx"
+        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx"
     ],
     "project": "map1.tiled-project",
     "recentFiles": [

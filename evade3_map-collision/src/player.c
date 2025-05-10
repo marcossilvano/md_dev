@@ -18,17 +18,6 @@ u16 PLAYER_init(u16 ind) {
 ////////////////////////////////////////////////////////////////////////////
 // UPDATE
 
-/*
-        // check_tile_collision();
-        player.nextx += player.spdx;
-        player.nexty += player.spdy;
-        
-        move_and_slide(&player);
-
-        player.x = player.nextx;
-        player.y = player.nexty;
-*/
-
 void PLAYER_update() {
 	// input
 	PLAYER_get_input_dir8();
@@ -42,24 +31,13 @@ void PLAYER_update() {
 	player.x = player.next_x;
 	player.y = player.next_y;
 	
-	// KLog_f2("x: ", player.x, " y: ", player.y);
-	// KLog_S2("bx: ", player.box.left, " by: ", player.box.top);
-	
-	// if (LEVEL_collision_result() & COLLISION_HORIZ ) {
-	// 	player.speed_x = 0;
-	// 	// KLog("collision HORIZONTAL");
-	// }
-	// if (LEVEL_collision_result() & COLLISION_VERT ) {
-	// 	player.speed_y = 0;
-	// }
-	
-	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	if (LEVEL_check_wall(&player)) {
-		PAL_setColor(2, 0x888);
+	KLog_U1("collision: ", LEVEL_collision_result());
+	if (LEVEL_collision_result()) {
+		PAL_setColor(3, RGB24_TO_VDPCOLOR(0xFF0000));
 	} else {
-		PAL_setColor(2, 0x0);
+		PAL_setColor(3, RGB24_TO_VDPCOLOR(0x00FF00));
 	}
-
+	
 	// GAMEOBJECT_wrap_screen(&player);
 	// GAMEOBJECT_clamp_screen(&player);
 	
