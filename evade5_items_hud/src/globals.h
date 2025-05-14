@@ -4,11 +4,16 @@
 #include <genesis.h>
 #include <sprite_eng.h>
 
-#define DEBUG
+// #define DEBUG
 
 extern char text[5];
 
 // GENERAL SCREEN CONFIG ////////////////////////////////
+
+#define HUD_TILES 1
+
+// maximum number of screens (rooms) in a map
+#define NUMBER_OF_ROOMS 9 
 
 #define SCREEN_W 320
 #define SCREEN_H 224

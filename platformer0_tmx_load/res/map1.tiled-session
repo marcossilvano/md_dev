@@ -62,11 +62,11 @@
             "scaleInDock": 3
         },
         "D:/GitHub/md_dev/evade5_items_hud/res/levels/level1/level1_map.tmx": {
-            "scale": 1.2723214285714284,
+            "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.22456140350886,
-                "y": 335.6070175438597
+                "x": 162.33333333333334,
+                "y": 8
             }
         },
         "D:/GitHub/md_dev/evade5_items_hud/res/levels/level1/level1_tiles.tsx": {

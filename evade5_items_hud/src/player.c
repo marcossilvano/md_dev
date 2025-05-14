@@ -4,6 +4,7 @@
 #include "player.h"
 #include "level.h"
 #include "utils.h"
+#include "hud.h"
 
 GameObject player;
 
@@ -39,8 +40,9 @@ void PLAYER_update() {
 	// }
 	
 	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	if (LEVEL_tile_at(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
-		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2);
+	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
+		HUD_gem_collected(1);
+		LEVEL_remove_tile(player.box.left + player.w/2, player.box.top + player.h/2, IDX_ITEM_DONE);
 	}
 
 	// GAMEOBJECT_wrap_screen(&player);

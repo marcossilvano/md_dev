@@ -37,8 +37,8 @@
  * ------------------------------
  * [ ] Contabilizar item coletado
  * [ ] Modificar tiles de itens no mapa de forma permanente (restaura quando faz scroll)
- * [ ] Aumentar mapa de colisão para 3 tiles a mais de cada lado, permitindo que o player saia da tela
- * [ ] Gerar mapa de colisão para cada troca de tela
+ * [X] Aumentar mapa de colisão para 3 tiles a mais de cada lado, permitindo que o player saia da tela
+ * [X] Gerar mapa de colisão para cada troca de tela
  */
 #include <genesis.h>
 #include <sprite_eng.h>
@@ -80,13 +80,14 @@ void game_init() {
 	#endif
 
 	ind += LEVEL_init(ind);
-	LEVEL_generate_screen_collision_map(IDX_WALL_FIRST, IDX_WALL_LAST);
 	
 	#ifdef DEBUG
-	LEVEL_draw_collision_map();
+	LEVEL_draw_map();
 	#endif
 	
+	#ifndef DEBUG
 	ind += HUD_init(ind);
+	#endif
 	
 	// init GAME OBJECTS ////////////////////////////////////////////
 
@@ -122,49 +123,17 @@ static inline void color_effects() {
 	}
 }
 
-inline void scroll_and_update_collision(u16 x, u16 y) {
-		MAP_scrollTo(map, x, y);
-		LEVEL_generate_screen_collision_map(0, 5);
-		#ifdef DEBUG
-		LEVEL_draw_collision_map();
-		#endif
-}
-
-inline void update_camera(GameObject* obj) {
-	if (obj->x > (FIX16(SCREEN_W) - obj->w/2)) {
-		obj->x = 0;
-		screen_x += SCREEN_W;
-		scroll_and_update_collision(screen_x, screen_y);
-	} else
-	if (obj->x < (FIX16(-obj->w/2))) {
-		obj->x = FIX16(SCREEN_W - obj->w);
-		screen_x -= SCREEN_W;
-		MAP_scrollTo(map, screen_x, screen_y);
-		scroll_and_update_collision(screen_x, screen_y);
-	}
-	
-	if (obj->y > (FIX16(SCREEN_H) - obj->h/2)) {
-		obj->y = 0;
-		screen_y += SCREEN_H;
-		scroll_and_update_collision(screen_x, screen_y);
-	} else
-	if (obj->y < (FIX16(-obj->h/2))) {
-		obj->y = FIX16(SCREEN_H - obj->h);
-		screen_y -= SCREEN_H;
-		scroll_and_update_collision(screen_x, screen_y);
-	}
-}
-
 static inline void game_update() {
 	update_input();
 
 	PLAYER_update();
+	// LEVEL_generate_screen_collision_map(0,5);
 
 	#ifndef DEBUG
 	BACKGROUND_update();
 	#endif
 
-	update_camera(&player);
+	LEVEL_update_camera(&player);
 	color_effects();
 }
 
@@ -176,8 +145,7 @@ int main(bool resetType) {
 	if (!resetType) {
 		SYS_hardReset();
 	}
-	
-	// VDP_setPlaneSize(64, 64, TRUE);
+	SYS_showFrameLoad(true);
 	game_init();
 	
 	SYS_doVBlankProcess();

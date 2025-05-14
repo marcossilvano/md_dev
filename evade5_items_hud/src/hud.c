@@ -13,26 +13,32 @@ u16 HUD_init(u16 ind) {
 	
 	// VDP_setWindowHPos(FALSE, 0);
 	// Freezes the first 3 rows of background tiles (it won't scroll)
-	VDP_setWindowVPos(FALSE, 3);
+	VDP_setWindowVPos(FALSE, HUD_TILES);
 	
 	VDP_drawImageEx(WINDOW, &img_hud, TILE_ATTR_FULL(PAL_BACKGROUND, 1, 0, 0, ind), 0, 0, FALSE, DMA);
 	ind += img_hud.tileset->numTile;
 	
-	VDP_drawText("ENERGY ||||||||||   GEMS 255", 1, 1);
+	VDP_drawText("ENERGY ||||||||||   GEMS 255", 1, 0);
+	HUD_gem_collected(0);
 
     return ind;
 }
 
 void HUD_update_health(u8 value) {
-	char health[PLAYER_MAX_HEALTH+1] = {0};
+	char health[PLAYER_MAX_HEALTH+1] = "          ";
 	for (u8 i = 0; i < value; i++) {
 		health[i] = '|';
 	}
-	VDP_drawText(health, 7, 1);
+	VDP_drawText(health, 7, 0);
+}
+
+void HUD_gem_collected(u8 value) {
+	player_gems += value;
+	HUD_update_gems();
 }
 
 void HUD_update_gems() {
 	char gems[5];
 	intToStr(player_gems, gems, 3);
-	VDP_drawText(gems, 25, 1);
+	VDP_drawText(gems, 26, 0);
 }

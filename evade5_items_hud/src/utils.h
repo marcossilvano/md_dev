@@ -25,6 +25,18 @@ inline Box UTILS_get_box(int x, int y, int w, int h) {
 	return (Box){x, x+w, y, y+h};
 }
 
+// void print_bits(u32 value) {
+// 	// HEX -> 1234 1234 1234 1234
+// 	u32 mask = 0x00000000000000FF;
+// 	char str[33];
+// 	for (u8 i = 0; i < 4; ++i) {
+// 		u32 nibble = value & mask;
+// 		str
+// 	}
+// 	str[32] = 0;
+// 	kprintf("%s");
+// }
+
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
 

@@ -9,6 +9,8 @@
 extern u8 player_gems;
 
 void HUD_update_health(u8 value);
+
+void HUD_gem_collected(u8 value);
 void HUD_update_gems();
 
 u16 HUD_init(u16 ind);
