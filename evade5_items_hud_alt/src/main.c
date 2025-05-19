@@ -35,8 +35,10 @@
  * 
  * TODO
  * ------------------------------
- * [ ] Contabilizar item coletado
- * [ ] Modificar tiles de itens no mapa de forma permanente (restaura quando faz scroll)
+ * [ ] Implementar solução para o Mapa de Itens simplemente usando TileMap descompactado em RAM
+ * [ ] Testar consumo de RAM com MAP e sem MAP
+ * [X] Contabilizar item coletado
+ * [X] Modificar tiles de itens no mapa de forma permanente (restaura quando faz scroll)
  * [X] Aumentar mapa de colisão para 3 tiles a mais de cada lado, permitindo que o player saia da tela
  * [X] Gerar mapa de colisão para cada troca de tela
  */
@@ -51,6 +53,7 @@
 #include "player.h"
 #include "background.h"
 #include "level.h"
+#include "level2.h"
 #include "hud.h"
 
 // index for tiles in VRAM (first tile reserved for SGDK)
@@ -79,8 +82,14 @@ void game_init() {
 	ind += BACKGROUND_init(ind);
 	#endif
 
+	#if MAP_SOLUTION == MAP_BY_COMPACT_MAP
 	ind += LEVEL_init(ind);
-	
+	#endif
+
+	#if MAP_SOLUTION == MAP_BY_TILEMAP_RAM
+	ind += LEVEL2_init(ind);
+	#endif
+
 	#ifdef DEBUG
 	LEVEL_draw_map();
 	#endif
@@ -133,7 +142,9 @@ static inline void game_update() {
 	BACKGROUND_update();
 	#endif
 
+	#if MAP_SOLUTION == MAP_BY_COMPACT_MAP
 	LEVEL_update_camera(&player);
+	#endif
 	color_effects();
 }
 
@@ -147,8 +158,10 @@ int main(bool resetType) {
 	}
 	SYS_showFrameLoad(true);
 	game_init();
-	
+
 	SYS_doVBlankProcess();
+	
+	kprintf("Free RAM after Game Init: %d", MEM_getFree());
 
 	while (true) {
 		game_update();

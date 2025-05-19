@@ -10,7 +10,7 @@ u16 screen_y = 0;
 
 u8 collision_result;
 
-u32 items_table[NUMBER_OF_ROOMS*2] = {0}; 
+u32 items_table[NUMBER_OF_ROOMS][2] = {0}; 
 
 ////////////////////////////////////////////////////////////////////////////
 // INIT
@@ -177,10 +177,11 @@ void LEVEL_remove_tile(s16 x, s16 y, u8 new_index) {
 	x = (x + screen_x) / METATILE_W * (METATILE_W / 8);
 	y = (y + screen_y) / METATILE_W * (METATILE_W / 8);
 
-	VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x, y);
-	VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x+1, y);
-	VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x, y+1);
-	VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x+1, y+1);
+	VDP_clearTileMapRect(BG_MAP, x, y, 2, 2);
+	// VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x, y);
+	// VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x+1, y);
+	// VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x, y+1);
+	// VDP_setTileMapXY(BG_MAP, TILE_ATTR_FULL(PAL_MAP, 0, 0, 0, 0), x+1, y+1);
 
 	#ifdef DEBUG
 	LEVEL_draw_map();
@@ -193,7 +194,7 @@ void LEVEL_remove_tile(s16 x, s16 y, u8 new_index) {
  * @param x The item x position.
  * @param y The item y position.
  */
-void LEVEL_register_items_collected(s8 room) {
+void LEVEL_register_items_collected(u8 room) {
 	/*
 	When an item is colected, it's tiles are removed from MAP and the collision_map
 	is set as 80 (item collected mark).
@@ -220,9 +221,9 @@ void LEVEL_register_items_collected(s8 room) {
 				++count;
 				
 				if (map_index == IDX_ITEM) {
-					items_table[room*2 + offset] &= ~mask;	// clear flag
+					items_table[room][offset] &= ~mask;	// clear flag
 				} else {
-					items_table[room*2 + offset] |= mask;	// set flag
+					items_table[room][offset] |= mask;	// set flag
 				}
 				#ifdef DEBUG
 				kprintf("Item found %d, %d -> %d", tile_x, tile_y, map_index);
@@ -243,7 +244,7 @@ void LEVEL_register_items_collected(s8 room) {
 	#endif
 }
 
-void LEVEL_restore_items(s8 room) {
+void LEVEL_restore_items(u8 room) {
 	/*
 	When the player enters a room, the screen is scrolled and the SGDK retores all item tiles in the room.
 	Then, the code below search for 8 (IDX_ITEM) in the SGDK map,
@@ -273,7 +274,7 @@ void LEVEL_restore_items(s8 room) {
 				++count;
 
 				// Is BIT MAP 0? Remove item from map and collision map
-				if (items_table[room*2 + offset] & mask) {
+				if (items_table[room][offset] & mask) {
 					#ifdef DEBUG
 					kprintf("Item removed %d, %d -> %d %lX", tile_x/2, tile_y/2, map_index, items_table[room*2 + offset]);
 					#endif
@@ -285,11 +286,10 @@ void LEVEL_restore_items(s8 room) {
 				#endif
 
 				// if we already shifted all bits for the first byte, prepare for the second
-				if (mask == 0x0001) { 
+				mask = mask >> 1;
+				if (!mask) { 
 					mask = 0x80000000;
 					offset = 1;
-				} else {
-					mask = mask >> 1;
 				}
 			}
 		}
