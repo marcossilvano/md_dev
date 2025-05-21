@@ -69,11 +69,46 @@ u16 ind = TILE_USER_INDEX;
 u8 bg_colors_delay = 5;
 const u16 const bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
 
-#define MAX_OBJ 1
-GameObject balls[MAX_OBJ];
+#define MAX_OBJ 78
+GameObject balls_list[MAX_OBJ];
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME INIT
+
+u16** ball_indexes;
+
+static void frame_changed(Sprite* sprite) {
+	// get enemy index (stored in data field)
+    // u16 ball_idx = sprite->data;
+	
+    // get VRAM tile index for this animation of this sprite
+    // u16 tileIndex = sprTileIndexes[enemyIndex][sprite->animInd][sprite->frameInd];
+    u16 tileIndex = ball_indexes[sprite->animInd][sprite->frameInd];
+	
+    // manually set tile index for the current frame (preloaded in VRAM)
+    SPR_setVRAMTileIndex(sprite, tileIndex);
+}
+
+void init_balls() {
+	#define BALL_MAX_SPEED 3
+	
+	u16 num_tiles;
+	ball_indexes = SPR_loadAllFrames(&spr_ball, ind, &num_tiles);
+	
+	GameObject* ball = &balls_list[0];
+	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
+		GAMEOBJECT_init(ball, &spr_ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, -4, -4, PAL_ENEMY, ind);
+		ball->speed_x = FIX16(random() % (BALL_MAX_SPEED*2+1) - BALL_MAX_SPEED); // [-5, 5]
+		ball->speed_y = FIX16(random() % (BALL_MAX_SPEED*2+1) - BALL_MAX_SPEED); // [-5, 5]
+		
+		SPR_setAutoTileUpload(ball->sprite, FALSE);
+		SPR_setFrameChangeCallback(ball->sprite, &frame_changed);
+		
+		SPR_setAnim(ball->sprite, 2);
+		SPR_setAnimationLoop(ball->sprite, FALSE);
+	}
+	ind += num_tiles;
+}
 
 void game_init() {
 	VDP_setScreenWidth320();
@@ -87,11 +122,11 @@ void game_init() {
 	ind += BACKGROUND_init(ind);
 	#endif
 
-	#if MAP_SOLUTION == MAP_BY_COMPACT_MAP
+	#if GAME_MODE == MODE_SHOOTER
 	ind += LEVEL_init(ind);
 	#endif
-
-	#if MAP_SOLUTION == MAP_BY_TILEMAP_RAM
+	
+	#if GAME_MODE == MODE_PLATFORMER
 	ind += LEVEL2_init(ind);
 	#endif
 
@@ -107,21 +142,7 @@ void game_init() {
 
 	PLAYER_init(ind);
 
-	ind += GAMEOBJECT_init(&balls[0], &spr_ball, 100, 100, PAL_NPC, ind);
-	SPR_setAnim(balls[0].sprite, 3);
-
-	// for (u8 i = 0; i < MAX_OBJ; ++i) {
-		// GAMEOBJECT_init(&objects[i], &spr_ball, (i+1)*24, 20*16);
-		
-	// 	SPR_setAutoTileUpload(objects[i].sprite, FALSE);
-	// 	SPR_setFrameChangeCallback(objects[i].sprite, &frame_changed);
-
-	// 	robot_tile_indexes = SPR_loadAllFrames(&spr_robot, ind, &num_tiles);
-	// 	ind += num_tiles;
-
-	// 	SPR_setAnim(objects[i].sprite, 1);
-	// }
-
+	init_balls();
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -137,10 +158,23 @@ static inline void color_effects() {
 	}
 }
 
+inline void update_enemies() {
+	GameObject* ball = &balls_list[0];
+	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
+		ball->x += ball->speed_x;
+		ball->y += ball->speed_y;
+
+		GAMEOBJECT_update_boundbox(ball->x, ball->y, ball);
+		GAMEOBJECT_bounce_off_screen(ball);
+		SPR_setPosition(ball->sprite, ball->box.left, ball->box.top);
+	}
+}
+
 static inline void game_update() {
 	update_input();
 
 	PLAYER_update();
+	update_enemies();
 
 	#ifndef DEBUG
 	BACKGROUND_update();

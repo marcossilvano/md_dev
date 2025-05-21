@@ -6,11 +6,9 @@
 
 // #define DEBUG
 
-#define MAP_NO_MAP         0
-#define MAP_BY_COMPACT_MAP 1
-#define MAP_BY_TILEMAP_RAM 2
-
-#define MAP_SOLUTION MAP_BY_COMPACT_MAP
+#define MODE_SHOOTER    0
+#define MODE_PLATFORMER 1
+#define GAME_MODE MODE_EXPLORATION_SHOOTER
 
 // GENERAL SCREEN CONFIG ////////////////////////////////
 
@@ -47,7 +45,7 @@
 // GENERAL VDP CONFIG ///////////////////////////////////
 
 #define PAL_PLAYER 		PAL0
-#define PAL_NPC 		PAL1
+#define PAL_ENEMY 		PAL1
 #define PAL_MAP 		PAL2
 #define PAL_BACKGROUND 	PAL3
 
