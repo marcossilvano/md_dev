@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="60" height="42" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="30">
+ <tileset firstgid="1" source="level1_tiles.tsx"/>
+ <tileset firstgid="7" source="enemy_markers.tsx"/>
+ <layer id="1" name="map_layer" width="60" height="42">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,2,
+1,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,1,2,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,5,5,0,0,0,0,0,0,5,5,0,0,0,0,0,0,5,5,2,
+1,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,1,2,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,1,1,0,0,0,0,5,5,0,0,0,0,1,1,0,0,2,
+1,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,1,2,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,3,3,1,2,0,0,1,0,5,5,5,0,0,0,0,5,5,5,0,1,0,0,2,
+1,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,1,1,3,3,3,3,3,1,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,5,5,5,0,0,0,0,5,5,5,0,0,0,0,2,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,2,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,1,0,0,2,2,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,2,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,3,3,3,3,3,1,0,0,0,0,0,2,0,0,1,1,0,0,2,2,0,0,0,0,5,5,5,0,0,0,0,5,5,5,0,0,0,0,2,
+1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,2,0,0,1,0,5,5,5,0,0,0,0,5,5,5,0,1,0,0,2,
+1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,2,2,0,0,1,1,0,0,0,0,5,5,0,0,0,0,1,1,0,0,2,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,2,2,5,5,0,0,0,0,0,0,5,5,0,0,0,0,0,0,5,5,2,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,2,
+1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,1,0,0,1,3,1,0,0,1,3,3,1,
+1,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,1,0,0,1,3,1,0,0,1,3,3,1,
+2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,2,
+2,0,5,5,5,5,5,5,5,5,5,0,2,0,0,0,0,2,0,2,1,0,5,5,5,0,0,0,0,0,0,0,0,0,0,5,5,5,0,1,2,0,5,5,5,5,5,0,2,0,0,2,0,0,5,0,0,0,0,2,
+2,0,5,5,5,5,5,5,5,5,5,0,2,0,0,0,0,2,0,2,1,0,5,5,5,0,0,0,0,0,0,0,0,0,0,5,5,5,0,1,2,0,5,5,5,5,5,0,2,0,0,2,0,0,5,0,0,0,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,3,1,1,0,0,0,0,0,0,1,3,3,3,3,1,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,2,0,0,2,0,0,5,0,0,0,0,2,
+1,3,3,3,1,0,0,0,1,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,1,3,3,1,0,0,0,0,1,3,3,1,0,0,0,1,2,0,0,0,0,0,0,0,1,0,0,2,0,0,5,0,0,0,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,5,0,0,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,5,0,0,2,
+2,0,0,1,0,0,0,0,0,0,0,0,1,3,3,3,3,3,3,1,1,0,0,0,1,3,3,1,0,0,0,0,1,3,3,1,0,0,0,1,2,0,0,0,0,0,0,0,1,0,0,2,0,0,0,0,0,5,0,2,
+2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,2,1,0,0,0,0,0,0,1,3,3,3,3,1,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,5,0,2,
+2,0,0,1,3,3,3,3,1,0,0,0,0,0,5,5,5,5,0,2,1,0,5,5,5,0,0,0,0,0,0,0,0,0,0,5,5,5,0,1,2,0,5,5,5,5,5,0,2,0,0,2,0,0,0,0,0,5,0,2,
+2,0,0,0,5,5,5,5,2,0,0,0,0,0,5,5,5,5,0,2,1,0,5,5,5,0,0,0,0,0,0,0,0,0,0,5,5,5,0,1,2,0,5,5,5,5,5,0,2,0,0,2,0,0,0,0,0,5,0,2,
+2,0,0,0,5,5,5,5,2,0,0,0,0,0,0,5,5,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,2,
+1,3,3,3,3,3,3,3,1,0,0,0,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,1,0,0,1,3,3,3,3,1,0,0,1,
+1,3,3,3,3,3,3,3,1,0,0,0,1,3,3,3,3,3,3,1,1,3,3,3,3,3,3,1,0,0,0,0,1,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,1,0,0,1,3,3,3,3,1,0,0,1,
+2,5,5,0,0,0,5,5,2,0,0,0,2,5,5,0,0,5,5,2,2,0,0,0,0,0,0,2,0,0,0,0,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,2,
+2,5,5,0,0,0,5,5,2,0,0,0,2,5,5,0,0,5,5,2,2,0,5,5,5,5,0,2,0,0,0,0,2,0,5,5,5,5,0,2,2,0,0,5,5,5,0,0,2,0,0,2,0,0,0,0,0,0,0,2,
+2,0,0,1,3,1,0,0,2,0,0,0,2,0,0,1,1,0,0,2,2,0,5,5,5,5,0,1,0,0,0,0,1,0,5,5,5,5,0,2,2,0,5,0,0,0,5,0,2,0,0,2,0,0,5,5,5,0,0,2,
+2,0,0,2,0,2,0,0,1,0,0,0,2,0,0,2,2,0,0,2,2,0,5,5,5,5,0,0,0,0,0,0,0,0,5,5,5,5,0,1,1,0,5,0,0,0,5,0,2,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,2,0,2,0,0,0,0,0,0,2,0,0,2,2,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,5,0,2,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,2,0,2,0,0,0,0,0,0,2,0,0,2,2,0,0,2,1,3,3,3,3,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,5,0,2,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,2,0,1,3,3,3,3,3,3,1,0,0,2,2,0,0,2,2,0,0,0,0,2,0,0,1,1,1,1,0,0,1,3,3,3,3,1,1,0,0,5,5,5,0,0,2,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,2,0,2,5,5,0,0,0,0,0,5,5,2,2,0,0,2,2,0,0,0,0,2,0,0,1,1,1,1,0,0,2,0,0,0,0,2,2,0,0,0,0,0,0,0,2,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,2,0,2,5,5,0,0,0,0,0,5,5,2,2,0,0,1,1,3,3,3,3,1,0,0,1,1,1,1,0,0,1,3,3,3,3,1,1,3,3,3,3,3,3,3,1,0,0,2,0,5,0,0,0,5,0,2,
+2,0,0,1,3,1,0,0,1,3,3,3,3,3,3,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,5,5,5,0,0,2,
+2,5,5,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,
+2,5,5,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,1,1,3,3,3,3,3,1,3,3,3,3,3,3,1,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,0,0,2,
+1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1
+</data>
+ </layer>
+ <objectgroup id="2" name="objects_layer">
+  <object id="1" name="Ricochet Ball" type="MapObject" gid="7" x="400" y="64" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed_x" type="float" value="0"/>
+    <property name="speed_y" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="2" name="Ricochet Ball" type="MapObject" gid="7" x="464" y="160" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed_x" type="float" value="0"/>
+    <property name="speed_y" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="3" name="Ricochet Ball" type="MapObject" gid="7" x="464" y="176" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed_x" type="float" value="0"/>
+    <property name="speed_y" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="4" name="Ricochet Ball" type="MapObject" gid="7" x="536" y="144" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed_x" type="float" value="0"/>
+    <property name="speed_y" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="5" name="Ricochet Ball" type="MapObject" gid="7" x="264" y="128.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="6" name="Ricochet Ball" type="MapObject" gid="7" x="32" y="128" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="8" name="Ricochet Ball" type="MapObject" gid="7" x="144" y="192" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="9" name="Ricochet Ball" type="MapObject" gid="7" x="262" y="36.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="10" name="Ricochet Ball" type="MapObject" gid="7" x="30" y="36" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="11" name="Ricochet Ball" type="MapObject" gid="7" x="142" y="100" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="15" name="Ricochet Ball" type="MapObject" gid="7" x="261" y="62" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="16" name="Ricochet Ball" type="MapObject" gid="7" x="29" y="61.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="17" name="Ricochet Ball" type="MapObject" gid="7" x="141" y="125.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="21" name="Ricochet Ball" type="MapObject" gid="7" x="261.5" y="86.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="Ricochet Ball" type="MapObject" gid="7" x="29.5" y="86" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="23" name="Ricochet Ball" type="MapObject" gid="7" x="141.5" y="150" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="24" name="Ricochet Ball" type="MapObject" gid="7" x="258.5" y="101.5" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="25" name="Ricochet Ball" type="MapObject" gid="7" x="26.5" y="101" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="26" name="Ricochet Ball" type="MapObject" gid="7" x="138.5" y="165" width="16" height="16">
+   <properties>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed_x" type="float" value="5"/>
+    <property name="speed_y" type="float" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

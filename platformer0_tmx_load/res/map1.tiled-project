@@ -10,5 +10,58 @@
     "properties": [
     ],
     "propertyTypes": [
+        {
+            "id": 1,
+            "name": "Direction",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "DIRECTION_UP",
+                "DIRECTION_DOWN",
+                "DIRECTION_LEFT",
+                "DIRECTION_RIGHT"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 3,
+            "members": [
+                {
+                    "name": "exportPosition",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "room",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "speed_x",
+                    "type": "float",
+                    "value": 999
+                },
+                {
+                    "name": "speed_y",
+                    "type": "float",
+                    "value": 999
+                }
+            ],
+            "name": "MapObject",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        }
     ]
 }

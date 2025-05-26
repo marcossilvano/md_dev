@@ -3,11 +3,22 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map.tmx",
+    "activeFile": "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "C:/Users/marko/Downloads/tmx-objects/res/tmx_map/objects_map.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 3.816964285714286,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.07485380116958,
+                "y": 112.13099415204677
+            }
+        },
         "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx": {
             "scale": 2,
             "selectedLayer": 0,
@@ -76,8 +87,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1277,
-                "y": 287
+                "x": 2305,
+                "y": 395
             }
         },
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map__.tmx": {
@@ -91,6 +102,34 @@
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_tiles.tsx": {
             "scaleInDock": 2,
             "scaleInEditor": 1
+        },
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/enemy_markers.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 248,
+                "y": 160
+            }
+        },
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level2/level2_map.tmx": {
+            "scale": 0.6521354166666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 959.9233288076032,
+                "y": 335.8198226978676
+            }
+        },
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level2/level2_tiles.tsx": {
+            "scaleInDock": 1
         },
         "D:/GitHub/md_dev/platformer1_oneway/res/backgrounds/level1.tmx": {
             "scale": 2,
@@ -213,11 +252,14 @@
     "map.tileWidth": 16,
     "map.width": 120,
     "openFiles": [
-        "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map.tmx"
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx"
     ],
     "project": "map1.tiled-project",
+    "property.type": "float",
     "recentFiles": [
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx",
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map.tmx",
+        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level2/level2_map.tmx",
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_tiles.tsx",
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map__.tmx",
         "D:/GitHub/md_dev/evade5_items_hud/res/levels/level1/level1_map.tmx",
@@ -226,9 +268,7 @@
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level2_map.tmx",
         "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_tiles.tsx",
         "D:/GitHub/md_dev/evade3_map/res/backgrounds/level1_map.tmx",
-        "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1.tmx",
-        "D:/GitHub/md_dev/evade3_map/res/backgrounds/level1.tmx",
-        "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1_bg.tmx"
+        "D:/GitHub/md_dev/platformer3_baddies/res/backgrounds/level1.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

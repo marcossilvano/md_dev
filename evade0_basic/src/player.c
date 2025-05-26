@@ -70,8 +70,8 @@ void PLAYER_update() {
 	PLAYER_get_input();
 
 	// movement
-	player.x = player.x + fix16ToInt(player.speed_x);
-	player.y = player.y + fix16ToInt(player.speed_y);
+	player.x = player.x + F16_toInt(player.speed_x);
+	player.y = player.y + F16_toInt(player.speed_y);
 	GAMEOBJECT_update_box(&player);
 
 	// wrap at screen bounds
