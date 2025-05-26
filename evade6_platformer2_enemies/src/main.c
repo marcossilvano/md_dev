@@ -56,7 +56,7 @@
 #include <sprite_eng.h>
 
 #include "globals.h"
-#include "resources.h"
+// #include "resources.h"
 
 #include "utils.h"
 #include "hud.h"

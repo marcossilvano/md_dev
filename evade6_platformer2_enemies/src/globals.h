@@ -12,6 +12,7 @@ typedef struct {
     f16 speed_y;
 } MapObject;
 
+#include "resources.h"
 // #define DEBUG
 
 #define MODE_SHOOTER    0
