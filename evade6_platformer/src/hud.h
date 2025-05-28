@@ -3,7 +3,7 @@
 
 #include <genesis.h>
 #include "globals.h"
-#include "gameobject.h"
+#include "engine/gameobject.h"
 #include "resources.h"
 
 extern u8 player_gems;

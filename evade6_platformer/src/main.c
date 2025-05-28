@@ -53,12 +53,11 @@
 #include "globals.h"
 #include "resources.h"
 
-#include "gameobject.h"
-#include "utils.h"
+#include "engine/gameobject.h"
+#include "engine/utils.h"
+#include "engine/background.h"
+#include "engine/level.h"
 #include "player.h"
-#include "background.h"
-#include "level.h"
-#include "level2.h"
 #include "hud.h"
 
 // index for tiles in VRAM (first tile reserved for SGDK)
@@ -78,11 +77,7 @@ GameObject balls_list[MAX_OBJ];
 u16** ball_indexes;
 
 static void frame_changed(Sprite* sprite) {
-	// get enemy index (stored in data field)
-    // u16 ball_idx = sprite->data;
-	
-    // get VRAM tile index for this animation of this sprite
-    // u16 tileIndex = sprTileIndexes[enemyIndex][sprite->animInd][sprite->frameInd];
+    // get VRAM tile index for current animation of this sprite
     u16 tileIndex = ball_indexes[sprite->animInd][sprite->frameInd];
 	
     // manually set tile index for the current frame (preloaded in VRAM)
@@ -119,17 +114,11 @@ void game_init() {
 	#ifdef DEBUG
 	VDP_setTextPlane(BG_BACKGROUND);
 	#else	
-	ind += BACKGROUND_init(ind);
+	ind += BACKGROUND_init(ind, FIX16(-0.05), FIX16(-0.05));
 	#endif
 
-	#if GAME_MODE == MODE_SHOOTER
 	ind += LEVEL_init(ind);
-	#endif
 	
-	#if GAME_MODE == MODE_PLATFORMER
-	ind += LEVEL2_init(ind);
-	#endif
-
 	#ifdef DEBUG
 	LEVEL_draw_map();
 	#endif

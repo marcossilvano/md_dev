@@ -14,7 +14,7 @@ static inline void set_offset_speed(u8 start, u8 len, fix16 speed);
 ////////////////////////////////////////////////////////////////////////////
 // INIT
 
-u16 BACKGROUND_init(u16 ind) {
+u16 BACKGROUND_init(u16 ind, f16 start_speed, f16 speed_increase) {
 	VDP_setPlaneSize(64, 64, TRUE);
 	
 	// PAL_setPalette(PAL_BACKGROUND, img_background.palette->data, CPU);
@@ -22,11 +22,11 @@ u16 BACKGROUND_init(u16 ind) {
 	
 	VDP_setScrollingMode(HSCROLL_TILE , VSCROLL_COLUMN);
 	
-	f16 speed = FIX16(-0.05);
+	f16 speed = start_speed;
 	for (u8 i = 11; i < 255; --i) {
 		set_offset_speed(i, 1, speed);
 		set_offset_speed(SCREEN_TILES_H-i-1, 1, speed);
-		speed += FIX16(-0.05);
+		speed += speed_increase;
 	}
     set_offset_speed(11, 6, FIX16(-0.05));
 	

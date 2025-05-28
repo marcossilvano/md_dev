@@ -2,8 +2,8 @@
 #include <maths.h>
 
 #include "player.h"
-#include "level.h"
-#include "utils.h"
+#include "engine/level.h"
+#include "engine/utils.h"
 #include "hud.h"
 
 GameObject player;

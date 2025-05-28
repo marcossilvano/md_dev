@@ -8,12 +8,6 @@
 
 #define NUMBER_OF_LEVELS 5
 
-#define IDX_EMPTY 	   10
-#define IDX_ITEM  	   8
-#define IDX_ITEM_DONE  80
-#define IDX_WALL_FIRST 0
-#define IDX_WALL_LAST  5
-
 #define OFFSCREEN_TILES 3
 
 #define COLLISION_LEFT   0b0001
@@ -29,7 +23,7 @@ extern u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES*2][SCREEN_METATILES
 extern u16 tilemap_buff[SCREEN_TILES_W * SCREEN_TILES_H];
 
 extern u8 collision_result;
-extern char text[5];
+extern char text[10];
 
 ////////////////////////////////////////////////////////////////////////////
 // INITIALIZATION
@@ -131,5 +125,7 @@ inline void LEVEL_draw_map() {
 	LEVEL_draw_collision_map();
 	// LEVEL_draw_tile_map();
 }
+
+void LEVEL_print_tilemap_buff();
 
 #endif // _LEVEL_H_

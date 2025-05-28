@@ -7,12 +7,12 @@ u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES*2][SCREEN_METATILES_H + OF
 u16 tilemap_buff[SCREEN_TILES_W * SCREEN_TILES_H];
 
 u8 collision_result;
-char text[5];
+char text[10];
 
 // Defines the amount of bits needed to map every tile in the screen/room
 // 320/16 x 224/16 = 20 x 14 = 280 bits are necessary to map all screen tiles.
 // 280/32 bits (long) = 8.75 longs = 9 longs needed (9x4 bytes = 36 bytes per room.)
-#define NUMBER_OF_ROOM_32BIT_BITMAPS 9 
+#define NUMBER_OF_32BIT_BITMAPS 9 
 
 ////////////////////////////////////////////////////////////////////////////
 // PRIVATE MEMBERS
@@ -21,8 +21,7 @@ char text[5];
 static u16 screen_x = 0;
 static u16 screen_y = 0;
 
-
-static u32 items_table[NUMBER_OF_ROOMS][NUMBER_OF_ROOM_32BIT_BITMAPS] = {0}; 
+static u32 items_table[NUMBER_OF_ROOMS][NUMBER_OF_32BIT_BITMAPS] = {0}; 
 
 static void LEVEL_remove_tile_from_buffer(u16 x, u16 y, u8 new_index);
 static void LEVEL_generate_screen_collision_map(u8 empty, u8 first_wall, u8 last_wall);
@@ -31,9 +30,6 @@ static void LEVEL_restore_tiles_in_room(u8 room);
 
 static void LEVEL_scroll_map(s16 x, s16 y);
 static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y);
-
-// DEBUG tools
-static inline void LEVEL_print_tilemap_buff();
 
 ////////////////////////////////////////////////////////////////////////////
 // INIT
@@ -44,12 +40,12 @@ u16 LEVEL_init(u16 ind) {
 	map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
 	
 	LEVEL_scroll_map(0, 0);
-	LEVEL_generate_screen_collision_map(10, IDX_WALL_FIRST, IDX_WALL_LAST);
+	LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);
 	
 	ind += level1_tiles.numTile;
 
 	// start tiles BIT MAP with 1's
-	memsetU32((u32*)items_table, 0xFFFFFFFF, NUMBER_OF_ROOMS * NUMBER_OF_ROOM_32BIT_BITMAPS);
+	memsetU32((u32*)items_table, 0xFFFFFFFF, NUMBER_OF_ROOMS * NUMBER_OF_32BIT_BITMAPS);
 
 	return ind;
 }
@@ -239,10 +235,10 @@ static void LEVEL_remove_tile_from_buffer(u16 x, u16 y, u8 new_index) {
 	LEVEL_set_tileIDX16(x/2, y/2, new_index);
 
 	// remove a 2x2 tiles square from tilemap buffer
-	LEVEL_set_mapbuffIDX8(x,   y,   10);
-	LEVEL_set_mapbuffIDX8(x+1, y,   10);
-	LEVEL_set_mapbuffIDX8(x,   y+1, 10);
-	LEVEL_set_mapbuffIDX8(x+1, y+1, 10);
+	LEVEL_set_mapbuffIDX8(x,   y,   IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x+1, y,   IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x,   y+1, IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x+1, y+1, IDX_EMPTY);
 }
 
 /**
@@ -406,7 +402,7 @@ static void LEVEL_scroll_map(s16 x, s16 y) {
 static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 	// >> COLLISION MAP (16x16)
 	// << ROOM BIT MAP (16x16)
-	LEVEL_register_tiles_in_room(screen_y/SCREEN_H * NUMBER_OF_ROOM_ROWS + screen_x/SCREEN_W);
+	LEVEL_register_tiles_in_room(screen_y/SCREEN_H * ROOMS_PER_ROW + screen_x/SCREEN_W);
 	
 	// move to next room and generate collision map
 	screen_x += offset_x;
@@ -421,11 +417,11 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 	
 	// >> MAP RECT (8x8) + ROOM BIT MAP (16x16)
 	// << MAP RECT (8x8)
-	LEVEL_restore_tiles_in_room(screen_y/SCREEN_H * NUMBER_OF_ROOM_ROWS + screen_x/SCREEN_W);
+	LEVEL_restore_tiles_in_room(screen_y/SCREEN_H * ROOMS_PER_ROW + screen_x/SCREEN_W);
 
 	// >> SGDK COMPRESSED MAP
 	// << COLLISION MAP (16x16)
-	LEVEL_generate_screen_collision_map(10, 0, 5);	
+	LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);	
 
 	#ifdef DEBUG
 	kprintf("Setting VRAM with obtained map region, 40x28 tiles.");
@@ -442,7 +438,7 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
 
-static inline void LEVEL_print_tilemap_buff() {
+void LEVEL_print_tilemap_buff() {
 	kprintf("Screen Tilemap Buffer");
 	// u16* pbuff = tilemap_buff;
 	u8 count = SCREEN_TILES_W/2;
