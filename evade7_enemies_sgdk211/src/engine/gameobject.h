@@ -13,6 +13,7 @@ typedef struct {
 } BoundBox;
 
 typedef struct GameObject {
+	u8 active;
 	Sprite* sprite;
 	f16 x;
 	f16 y;
@@ -20,6 +21,7 @@ typedef struct GameObject {
 	f16 next_y;
 	f16 speed_x;
 	f16 speed_y;
+	f16 speed;
 	u8 w;
 	u8 h;
 	BoundBox box;

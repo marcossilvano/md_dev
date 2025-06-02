@@ -21,7 +21,6 @@ char text[5];
 static u16 screen_x = 0;
 static u16 screen_y = 0;
 
-
 static u32 items_table[NUMBER_OF_ROOMS][NUMBER_OF_ROOM_32BIT_BITMAPS] = {0}; 
 
 static void LEVEL_remove_tile_from_buffer(u16 x, u16 y, u8 new_index);
@@ -33,7 +32,6 @@ static void LEVEL_scroll_map(s16 x, s16 y);
 static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y);
 
 // DEBUG tools
-static inline void LEVEL_print_tilemap_buff();
 
 ////////////////////////////////////////////////////////////////////////////
 // INIT
@@ -44,7 +42,7 @@ u16 LEVEL_init(u16 ind) {
 	map = MAP_create(&level1_map, BG_MAP, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
 	
 	LEVEL_scroll_map(0, 0);
-	LEVEL_generate_screen_collision_map(10, IDX_WALL_FIRST, IDX_WALL_LAST);
+	LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);
 	
 	ind += level1_tiles.numTile;
 
@@ -67,7 +65,7 @@ void LEVEL_remove_tileXY(s16 x, s16 y, u8 new_index) {
 
 	VDP_clearTileMapRect(BG_MAP, x, y, 2, 2);// put zeros in 2x2 tiles
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	LEVEL_draw_map();
 	#endif
 }
@@ -93,24 +91,29 @@ void LEVEL_check_map_boundaries(GameObject* obj) {
 	}
 }
 
-void LEVEL_update_camera(GameObject* obj) {
+u8 LEVEL_update_camera(GameObject* obj) {
 	if (obj->x > (FIX16(SCREEN_W - obj->w/2))) {
 		obj->x = 0;
 		LEVEL_scroll_and_update_collision(SCREEN_W, 0);
+		return TRUE;
 	} else
 	if (obj->x < (FIX16(-obj->w/2))) {
 		obj->x = FIX16(SCREEN_W - obj->w);
 		LEVEL_scroll_and_update_collision(-SCREEN_W, 0);
+		return TRUE;
 	}
-	
+	else
 	if (obj->y > (FIX16(SCREEN_H - obj->h/2))) {
 		obj->y = 0;
 		LEVEL_scroll_and_update_collision(0, SCREEN_H);
+		return TRUE;
 	} else
 	if (obj->y < (FIX16(-obj->h/2))) {
 		obj->y = FIX16(SCREEN_H - obj->h);
 		LEVEL_scroll_and_update_collision(0, -SCREEN_H);
+		return TRUE;
 	}
+	return FALSE;
 }
 
 // GameObject box must be updated before calling this function
@@ -224,6 +227,10 @@ void LEVEL_move_and_slide(GameObject* obj) {
     }
 }
 
+u8 LEVEL_current_room() {
+	return screen_y/SCREEN_H * ROOMS_PER_ROW + screen_x/SCREEN_W;
+}
+
 ///////////////////////////////////////////////////////////////////////////
 // PRIVATE MEMBERS
 
@@ -239,10 +246,10 @@ static void LEVEL_remove_tile_from_buffer(u16 x, u16 y, u8 new_index) {
 	LEVEL_set_tileIDX16(x/2, y/2, new_index);
 
 	// remove a 2x2 tiles square from tilemap buffer
-	LEVEL_set_mapbuffIDX8(x,   y,   10);
-	LEVEL_set_mapbuffIDX8(x+1, y,   10);
-	LEVEL_set_mapbuffIDX8(x,   y+1, 10);
-	LEVEL_set_mapbuffIDX8(x+1, y+1, 10);
+	LEVEL_set_mapbuffIDX8(x,   y,   IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x+1, y,   IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x,   y+1, IDX_EMPTY);
+	LEVEL_set_mapbuffIDX8(x+1, y+1, IDX_EMPTY);
 }
 
 /**
@@ -259,7 +266,7 @@ static void LEVEL_generate_screen_collision_map(u8 empty, u8 first_wall, u8 last
 	utiliza uma matriz 16x16. Logo, este código considera apenas o tile no canto esquero 
 	superior de cada metatile de 4x tiles 8x8.
 */
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("Generating collision map for screen in Meta Tiles 16x16 + 3 offscreen tiles at each side.");
 	#endif
 
@@ -304,7 +311,7 @@ static void LEVEL_register_tiles_in_room(u8 room) {
 	u8 offset = 0;
 	u16 count = 0;
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("BIT MAP: Registering tiles in room %d", room);	
 	#endif
 	
@@ -333,7 +340,7 @@ static void LEVEL_register_tiles_in_room(u8 room) {
 			}
 		}
 	}
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("Total entries: %d", count);
 	for (u8 i = 0; i < 9; i++)
 		print_bits(items_table[room][i]);
@@ -341,7 +348,7 @@ static void LEVEL_register_tiles_in_room(u8 room) {
 }
 
 static void LEVEL_restore_tiles_in_room(u8 room) {
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("Entering room %d", room);
 	for (u8 i = 0; i < 9; i++)
 		print_bits(items_table[room][i]);
@@ -358,7 +365,7 @@ static void LEVEL_restore_tiles_in_room(u8 room) {
 	u8 offset = 0;
 	// u8 count = 0;
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("Restoring tiles in room %d", room);
 	#endif
 	
@@ -370,7 +377,7 @@ static void LEVEL_restore_tiles_in_room(u8 room) {
 
 				// Is BIT MAP 0 (empty)? Remove item from map and collision map
 				if (!(items_table[room][offset] & mask)) {
-					#ifdef DEBUG
+					#ifdef DEBUG_LEVEL
 					kprintf("Tile removed %d, %d", tile_x/2, tile_y/2);
 					#endif
 					LEVEL_remove_tile_from_buffer(tile_x, tile_y, 0);
@@ -387,7 +394,7 @@ static void LEVEL_restore_tiles_in_room(u8 room) {
 			}
 		}
 	}
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	// kprintf("Room restored by tiles BIT MAP: %d", count);
 	// for (u8 i = 0; i < 9; i++)
 	// 	print_bits(items_table[room][i]);
@@ -406,14 +413,14 @@ static void LEVEL_scroll_map(s16 x, s16 y) {
 static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 	// >> COLLISION MAP (16x16)
 	// << ROOM BIT MAP (16x16)
-	LEVEL_register_tiles_in_room(screen_y/SCREEN_H * NUMBER_OF_ROOM_ROWS + screen_x/SCREEN_W);
+	LEVEL_register_tiles_in_room(LEVEL_current_room());
 	
 	// move to next room and generate collision map
 	screen_x += offset_x;
 	screen_y += offset_y;
 	
-	#ifdef DEBUG
-	kprintf("Obtaing map region 40x28 from SGDK Map for room %d", screen_y/SCREEN_H * NUMBER_OF_ROOM_ROWS + screen_x/SCREEN_W);
+	#ifdef DEBUG_LEVEL
+	kprintf("Obtaing map region 40x28 from SGDK Map for room %d", LEVEL_current_room());
 	#endif
 	// >> SGDP COMPRESSED MAP
 	// << MAP RECT (8x8)
@@ -421,20 +428,20 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 	
 	// >> MAP RECT (8x8) + ROOM BIT MAP (16x16)
 	// << MAP RECT (8x8)
-	LEVEL_restore_tiles_in_room(screen_y/SCREEN_H * NUMBER_OF_ROOM_ROWS + screen_x/SCREEN_W);
+	LEVEL_restore_tiles_in_room(LEVEL_current_room());
 
 	// >> SGDK COMPRESSED MAP
 	// << COLLISION MAP (16x16)
-	LEVEL_generate_screen_collision_map(10, 0, 5);	
+	LEVEL_generate_screen_collision_map(IDX_EMPTY, IDX_WALL_FIRST, IDX_WALL_LAST);	
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	kprintf("Setting VRAM with obtained map region, 40x28 tiles.");
 	#endif
 	// >> MAP RECT (8x8)
 	// << VDP
 	VDP_setTileMapDataRect(VDP_BG_A, tilemap_buff, 0, 0, SCREEN_TILES_W, SCREEN_TILES_H, SCREEN_TILES_W, DMA_QUEUE);
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	LEVEL_draw_map();
 	#endif
 }
@@ -442,7 +449,41 @@ static void LEVEL_scroll_and_update_collision(s16 offset_x, s16 offset_y) {
 ////////////////////////////////////////////////////////////////////////////
 // DRAWING AND FX
 
-static inline void LEVEL_print_tilemap_buff() {
+void LEVEL_draw_collision_map() {
+    VDP_setTextPlane(BG_B);
+
+	for (u8 tile_x = 0; tile_x < SCREEN_METATILES_W; ++tile_x) {
+		for (u8 tile_y = 0; tile_y < SCREEN_METATILES_H; ++tile_y) {
+				
+				s16 index = LEVEL_tileIDX16(tile_x, tile_y);
+				if (index != 0) {
+					intToStr(index, text, 1);
+					VDP_drawText(text, tile_x * METATILE_W/8, tile_y * METATILE_W/8);
+				} else {
+					VDP_drawText("  ", tile_x * METATILE_W/8, tile_y * METATILE_W/8);
+				}
+		}
+	}
+}
+
+void LEVEL_draw_tile_map() {
+    VDP_setTextPlane(BG_B);
+
+	for (u8 tile_x = 0; tile_x < SCREEN_TILES_W; tile_x += 2) {
+		for (u8 tile_y = 0; tile_y < SCREEN_TILES_H; tile_y += 2) {
+
+			s16 index = LEVEL_mapbuffIDX8(tile_x, tile_y);
+				if (index != 10) {
+					intToStr(index, text, 1);
+					VDP_drawText(text, tile_x, tile_y);
+				} else {
+					VDP_drawText("  ", tile_x, tile_y);
+				}
+		}
+	}
+}
+
+void LEVEL_print_tilemap_buff() {
 	kprintf("Screen Tilemap Buffer");
 	// u16* pbuff = tilemap_buff;
 	u8 count = SCREEN_TILES_W/2;

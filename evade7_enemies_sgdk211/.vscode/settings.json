@@ -13,6 +13,8 @@
         "**/out.lst": true,
     },
     "files.associations": {
-        "resources.h": "c"
+        "resources.h": "c",
+        "enemy.h": "c",
+        "level.h": "c"
     },
 }

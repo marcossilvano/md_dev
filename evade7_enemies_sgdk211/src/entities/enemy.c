@@ -1,6 +1,6 @@
 #include <genesis.h>
 #include "enemy.h"
-#include "level/level.h"
+#include "engine/level.h"
 
 static u16** ball_indexes;
 
@@ -19,10 +19,14 @@ u16 ENEMY_load_tiles(u16 ind) {
     return num_tiles;
 }
 
-void ENEMY_init(GameObject* const obj, s16 x, s16 y, u16 ind) {
-    GAMEOBJECT_init(obj, &spr_ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, -4, -4, PAL_ENEMY, ind);
-    obj->speed_x = FIX16(random() % (BALL_MAX_SPEED*2+1) - BALL_MAX_SPEED); // [-5, 5]
-    obj->speed_y = FIX16(random() % (BALL_MAX_SPEED*2+1) - BALL_MAX_SPEED); // [-5, 5]
+void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
+    // convert map coord to screen coord (and fix 1 tile offset y from Tiled)
+	f32 x = F32_toInt(mapobj->x) % SCREEN_W;
+	f32 y = F32_toInt(mapobj->y) % SCREEN_H - 16;
+
+    GAMEOBJECT_init(obj, &spr_ball, x, y, -4, -4, PAL_ENEMY, ind);
+    obj->speed_x = mapobj->speed_x;
+    obj->speed_y = mapobj->speed_y;
 
     SPR_setAutoTileUpload(obj->sprite, FALSE);
     SPR_setFrameChangeCallback(obj->sprite, &frame_changed);

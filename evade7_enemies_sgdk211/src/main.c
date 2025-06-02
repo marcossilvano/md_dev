@@ -1,9 +1,10 @@
 /**
  * Upgrade para SGDK 2.11
  * ----------------------
- * Abrir C:\sgdk211\sample\basics\hello-world\src
- * > Copiar pasta "boot" para "src" deste projeto
- * 
+ * - Atualizar pasta do SGDK
+ * - Abrir C:\sgdk211\sample\basics\hello-world\src
+ *   > Copiar pasta "boot" para "src" deste projeto
+  * 
  * Para compilar & rodar:
  * ---------------------
  *   CTRL + SHIFT + B   (gera out/rom.bin )			<< compilar
@@ -58,15 +59,14 @@
 #include "globals.h"
 // #include "resources.h"
 
-#include "utils.h"
 #include "hud.h"
 #include "globals.h"
-#include "entities/gameobject.h"
+#include "engine/gameobject.h"
+#include "engine/background.h"
+#include "engine/utils.h"
+#include "engine/level.h"
 #include "entities/player.h"
 #include "entities/enemy.h"
-#include "level/background.h"
-#include "level/level.h"
-#include "level/level2.h"
 
 // index for tiles in VRAM (first tile reserved for SGDK)
 // u16 ind = 1;
@@ -76,52 +76,140 @@ u16 ind = TILE_USER_INDEX;
 u8 bg_colors_delay = 5;
 const u16 bg_color_glow[] = {0x0, 0x222, 0x444, 0x666, 0x888};
 
+// enemies room table
+typedef struct {
+	u16 first;
+	u16 last;
+} RoomEnemies;
+
+RoomEnemies enemies_table[NUMBER_OF_ROOMS];
+
+// enemies pool
 #define MAX_OBJ 30
-GameObject balls_list[MAX_OBJ];
+GameObject enemy_pool[MAX_OBJ];
+u16 enemy_tiles_ind;
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME INIT
 
-/*
-y * width + x
+// void init_objects() {
+// 	for (u16 i = 0; i < LEN(level1_objects); ++i) {
+// 		MapObject* p = (MapObject*) level1_objects[i];
+// 		kprintf("room: %d, pos %ld %ld, spd: %d %d", p->room, F32_toInt(p->x), F32_toInt(p->y), F16_toInt(p->speed_x), F16_toInt(p->speed_y));
+// 	}
+// }
 
-screen_width = 100
-screen_width = 100
-map_width = 300
-map_height= 300
+/**
+ * Build enemy lookup table for indexed access when 
+ * spawning enemies, when the player enters a new room.
+ */
+void init_enemy_data_from_map() {
+	// get first and last index of enemies in each room
+	u8 room = -1;
+	u8 eny = -1;
+	u16 idx = 0;
+	MapObject* obj;
+	for (; idx < LEN(level1_objects); ++idx) {
+		obj = (MapObject*) level1_objects[idx];
+		#ifdef DEBUG_OBJ
+		text_add_int(obj->room);
+		#endif
+		
+		if (obj->room != room) {		 // reached new room
+			room = obj->room;
+			++eny;
+			enemies_table[eny].first = idx; // store the first enemy in room
+			
+			if (eny > 0) {				 // store the last enemy in previous room
+				enemies_table[eny-1].last = idx-1;
+			}
+			
+		}
+		// room: 1
+		// level1_objects:  00,00,00,01,01,01,01,
+		//                  0  1  2  3  4  5  6
+		//                                    idx
+		// room_enemies = { {0,2}, {3,?}, ...
+		//                          eny
+	}
+	enemies_table[eny].last = idx-1;
 
-0...........99  100........199  200........299
-300........399  400........499  500........599
-600........699  700........799  800........899  
-*/
+	#ifdef DEBUG_OBJ
+	KLog("All enemy rooms from map:");
+	text_print_and_clear();
+	#endif
 
-void init_objects() {
-	for (u16 i = 0; i < LEN(level1_objects); ++i) {
-		MapObject* p = (MapObject*) level1_objects[i];
-		kprintf("room: %d, pos %ld %ld, spd: %d %d", p->room, F32_toInt(p->x), F32_toInt(p->y), F16_toInt(p->speed_x), F16_toInt(p->speed_y));
+	#ifdef DEBUG_OBJ
+	KLog("Enemy lookup table:");
+	for (u8 i = 0; i < LEN(enemies_table); ++i) {
+		text_add_int(enemies_table[i].first);
+		text_add_int(enemies_table[i].last);
+	}
+	text_print_and_clear();
+	#endif
+}
+
+void init_enemy_pool() {
+	// prepare enemies pool
+	for (u8 i = 0; i < LEN(enemy_pool); ++i) {
+		enemy_pool[i].active = FALSE;
 	}
 
-	// u8* p = (u8*)level1_objects;
-	// for (u16 i = 0; i < 6; ++i) {
-	// 	kprintf("%X", *p);
-	// 	p++;
-	// }
-}
-// 7   0111
-// 0   0000 0000
-// 1   0000 0001
-// 5   0000 0101
-// 34  0010 0010
-
-void init_balls() {
-	// u16 num_tiles;
-	// ball_indexes = SPR_loadAllFrames(&spr_ball, ind, &num_tiles);
-	u16 ball_ind = ind;
+	// load enemy tiles
+	enemy_tiles_ind = ind;
 	ind += ENEMY_load_tiles(ind);
 	
-	GameObject* ball = &balls_list[0];
+	// GameObject* ball = enemy_pool;
+	// for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
+	// 	ENEMY_init(ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, ball_ind);
+	// }
+}
+
+/**
+ * Returns the next available index from enemies_list or -1 if there is none.
+ */
+s16 get_enemy_available() {
+	for (u8 i = 0; i < LEN(enemy_pool); ++i) {
+		if (!enemy_pool[i].active)
+			return i;
+	}
+	return -1;
+}
+
+//u16 screen_x, u16 screen_y
+void spawn_enemies() {
+	// spawn enemies in current room
+	u8 room = LEVEL_current_room();
+
+	#ifdef DEBUG_OBJ
+	KLog("Enemies in room according to EnemyTable:");
+	#endif
+
+	for (u16 i = enemies_table[room].first; i <= enemies_table[room].last; ++i) {
+// 		MapObject* p = (MapObject*) level1_objects[i];
+
+		MapObject* mapobj = (MapObject*)level1_objects[i];
+		#ifdef DEBUG_OBJ
+		kprintf("room: %d, pos %ld %ld, spd: %d %d", 
+			mapobj->room, F32_toInt(mapobj->x), F32_toInt(mapobj->y), 
+			F16_toInt(mapobj->speed_x), F16_toInt(mapobj->speed_y));
+		#endif
+		
+		s16 available = get_enemy_available();
+		if (available == -1) return;
+
+		GameObject* enemy = &enemy_pool[available];
+		ENEMY_init(enemy, mapobj, enemy_tiles_ind);
+	}
+}
+
+void clear_enemy_pool() {
+	GameObject* ball = &enemy_pool[0];
 	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		ENEMY_init(ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, ball_ind);
+		if (ball->active) {
+			SPR_releaseSprite(ball->sprite);
+			ball->active = FALSE;
+		}
 	}
 }
 
@@ -131,25 +219,19 @@ void game_init() {
 	
 	// init BACKGROUND, LEVEL AND HUD ///////////////////////////////
 
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	VDP_setTextPlane(BG_BACKGROUND);
 	#else	
 	ind += BACKGROUND_init(ind);
 	#endif
 
-	#if GAME_MODE == MODE_SHOOTER
 	ind += LEVEL_init(ind);
-	#endif
 	
-	#if GAME_MODE == MODE_PLATFORMER
-	ind += LEVEL2_init(ind);
-	#endif
-
-	#ifdef DEBUG
+	#ifdef DEBUG_LEVEL
 	LEVEL_draw_map();
 	#endif
 	
-	#ifndef DEBUG
+	#ifndef DEBUG_LEVEL
 	ind += HUD_init(ind);
 	#endif
 	
@@ -157,8 +239,9 @@ void game_init() {
 
 	PLAYER_init(ind);
 
-	init_balls();
-	init_objects();
+	init_enemy_data_from_map();
+	init_enemy_pool();
+	spawn_enemies(); // spawn enemies in first screen
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -175,9 +258,11 @@ static inline void color_effects() {
 }
 
 inline void update_enemies() {
-	GameObject* ball = &balls_list[0];
+	GameObject* ball = &enemy_pool[0];
 	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		ENEMY_update(ball);
+		if (ball->active) {
+			ENEMY_update(ball);
+		}
 	}
 }
 
@@ -192,7 +277,10 @@ static inline void game_update() {
 	#endif
 
 	#if MAP_SOLUTION == MAP_BY_COMPACT_MAP
-	LEVEL_update_camera(&player);
+	if (LEVEL_update_camera(&player)) {
+		clear_enemy_pool();
+		spawn_enemies();
+	}
 	#endif
 	color_effects();
 }
@@ -207,6 +295,9 @@ int main(bool resetType) {
 	}
 	SYS_showFrameLoad(true);
 	game_init();
+	
+	// print map indexes
+	// LEVEL_print_tilemap_buff();
 
 	SYS_doVBlankProcess();
 	

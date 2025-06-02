@@ -2,7 +2,7 @@
 #define _ENEMY_H_
 
 #include "resources.h"
-#include "entities/gameobject.h"
+#include "engine/gameobject.h"
 
 #define BALL_MAX_SPEED 3
 
@@ -10,7 +10,7 @@
 // INITIALIZATION
 
 u16 ENEMY_load_tiles(u16 ind);
-void ENEMY_init(GameObject* const ball, s16 x, s16 y, u16 ind);
+void ENEMY_init(GameObject* const ball, const MapObject* const mapobj, u16 ind);
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC

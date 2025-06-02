@@ -23,13 +23,13 @@ u16 BACKGROUND_init(u16 ind) {
 	
 	VDP_setScrollingMode(HSCROLL_TILE , VSCROLL_COLUMN);
 	
-	// f16 speed = FIX16(-0.05);
-	// for (u8 i = 11; i < 255; --i) {
-	// 	set_offset_speed(i, 1, speed);
-	// 	set_offset_speed(SCREEN_TILES_H-i-1, 1, speed);
-	// 	speed += FIX16(-0.05);
-	// }
-    // set_offset_speed(11, 6, FIX16(-0.05));
+	f16 speed = FIX16(-0.05);
+	for (u8 i = 11; i < 255; --i) {
+		set_offset_speed(i, 1, speed);
+		set_offset_speed(SCREEN_TILES_H-i-1, 1, speed);
+		speed += FIX16(-0.05);
+	}
+    set_offset_speed(11, 6, FIX16(-0.05));
 	
 
 	return img_background.tileset->numTile;

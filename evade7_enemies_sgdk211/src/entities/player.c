@@ -2,8 +2,8 @@
 #include <maths.h>
 
 #include "player.h"
-#include "level/level.h"
-#include "utils.h"
+#include "engine/level.h"
+#include "engine/utils.h"
 #include "hud.h"
 
 GameObject player;
@@ -55,7 +55,7 @@ void PLAYER_update() {
 	if (LEVEL_collision_result() & COLLISION_HORIZ) {
 		player.speed_x = 0;
 	}
-	
+
 	// item check
 	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
 	if (LEVEL_tileXY(player.box.left + player.w/2, player.box.top + player.h/2) == IDX_ITEM) {
@@ -172,15 +172,15 @@ static inline void PLAYER_get_input_dir4() {
 	} 
 }
 
-static void limit_speed_vector() {
-	// limit max speed
-	f16 length = FIX16(getApproximatedDistance(F16_toInt(player.speed_x), F16_toInt(player.speed_y)));
-	if (length > PLAYER_SPEED) {
-			// normalize speed vector
-			player.speed_x = F16_mul(F16_div(player.speed_x, length), PLAYER_SPEED);
-			player.speed_y = F16_mul(F16_div(player.speed_y, length), PLAYER_SPEED);
-		}
-}
+// static void limit_speed_vector() {
+// 	// limit max speed
+// 	u32 length = FIX16(getApproximatedDistance(F16_toInt(player.speed_x), F16_toInt(player.speed_y)));
+// 	if (length > PLAYER_SPEED) {
+// 			// normalize speed vector
+// 			player.speed_x = F16_mul(F16_div(player.speed_x, length), PLAYER_SPEED);
+// 			player.speed_y = F16_mul(F16_div(player.speed_y, length), PLAYER_SPEED);
+// 		}
+// }
 
 static void PLAYER_get_input_dir8_2() {
 	// Vect2D_s16 input;
@@ -225,11 +225,16 @@ static void PLAYER_get_input_dir8_2() {
 
 	if (key_any(JOY_1)) {
 		// define player x,y speed by scaling the direction vector
-		player.speed_x += F16_mul(  cosFix16(player.dir), PLAYER_ACCEL );
-		player.speed_y += F16_mul( -sinFix16(player.dir), PLAYER_ACCEL );
+		player.speed += PLAYER_ACCEL;
+		player.speed = min(player.speed, PLAYER_SPEED);
+	} else {
+		player.speed -= PLAYER_ACCEL;
+		player.speed = max(player.speed, 0);
 	}
+	player.speed_x = F16_mul(  cosFix16(player.dir), player.speed );
+	player.speed_y = F16_mul( -sinFix16(player.dir), player.speed );
 
-	limit_speed_vector();
+	// limit_speed_vector();
 
 	player.anim = player.dir / 128; 
 }

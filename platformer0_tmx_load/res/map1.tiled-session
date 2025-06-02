@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx",
+    "activeFile": "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -132,6 +132,43 @@
         "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level2/level2_tiles.tsx": {
             "scaleInDock": 1
         },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/enemy_markers.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 501.33333333333326,
+                "y": 126.33333333333331
+            }
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level1_map.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 248.66666666666669,
+                "y": 231.33333333333337
+            }
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level1_tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level2_map.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 525.5,
+                "y": 215
+            }
+        },
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level2_tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "D:/GitHub/md_dev/platformer1_oneway/res/backgrounds/level1.tmx": {
             "scale": 2,
             "selectedLayer": 0,
@@ -245,7 +282,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.externalTilesetPath": "D:/GitHub/md_dev/evade3_map/res/levels/level1",
+    "last.externalTilesetPath": "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2",
     "last.imagePath": "D:/GitHub/md_dev/platformer2_16tile/res/backgrounds",
     "map.height": 42,
     "map.lastUsedFormat": "tmx",
@@ -253,12 +290,15 @@
     "map.tileWidth": 16,
     "map.width": 120,
     "openFiles": [
-        "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx",
-        "C:/Users/marko/Downloads/tmx-objects/res/tmx_map/objects_map.tmx"
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx"
     ],
     "project": "map1.tiled-project",
     "property.type": "float",
     "recentFiles": [
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx",
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level1_map.tmx",
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level2_map.tmx",
+        "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level2_tiles.tsx",
         "C:/Users/marko/Downloads/tmx-objects/res/tmx_map/objects_map.tmx",
         "D:/GitHub/md_dev/evade6_platformer2_enemies/res/levels/level1/level1_map.tmx",
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map.tmx",
@@ -266,11 +306,7 @@
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_tiles.tsx",
         "D:/GitHub/md_dev/evade6_platformer/res/levels/level2/level2_map__.tmx",
         "D:/GitHub/md_dev/evade5_items_hud/res/levels/level1/level1_map.tmx",
-        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx",
-        "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_map.tmx",
-        "D:/GitHub/md_dev/evade3_map/res/levels/level1/level2_map.tmx",
-        "D:/GitHub/md_dev/evade3_map/res/levels/level1/level1_tiles.tsx",
-        "D:/GitHub/md_dev/evade3_map/res/backgrounds/level1_map.tmx"
+        "D:/GitHub/md_dev/evade3_map-collision/res/levels/level1/level1_map.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
