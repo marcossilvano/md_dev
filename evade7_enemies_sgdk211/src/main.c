@@ -67,6 +67,7 @@
 #include "engine/level.h"
 #include "entities/player.h"
 #include "entities/enemy.h"
+#include "objects_pool.h"
 
 // index for tiles in VRAM (first tile reserved for SGDK)
 // u16 ind = 1;
@@ -86,18 +87,12 @@ RoomEnemies enemies_table[NUMBER_OF_ROOMS];
 
 // enemies pool
 #define MAX_OBJ 30
-GameObject enemy_pool[MAX_OBJ];
+ObjectsPool enemy_pool;
+PoolableObj enemy_array[MAX_OBJ];
 u16 enemy_tiles_ind;
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME INIT
-
-// void init_objects() {
-// 	for (u16 i = 0; i < LEN(level1_objects); ++i) {
-// 		MapObject* p = (MapObject*) level1_objects[i];
-// 		kprintf("room: %d, pos %ld %ld, spd: %d %d", p->room, F32_toInt(p->x), F32_toInt(p->y), F16_toInt(p->speed_x), F16_toInt(p->speed_y));
-// 	}
-// }
 
 /**
  * Build enemy lookup table for indexed access when 
@@ -149,31 +144,14 @@ void init_enemy_data_from_map() {
 	#endif
 }
 
-void init_enemy_pool() {
-	// prepare enemies pool
-	for (u8 i = 0; i < LEN(enemy_pool); ++i) {
-		enemy_pool[i].active = FALSE;
-	}
-
+void init_enemies() {
+	// OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
+	print_array(enemy_array, LEN(enemy_array));
+	OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
+	print_array(enemy_array, LEN(enemy_array));
 	// load enemy tiles
 	enemy_tiles_ind = ind;
-	ind += ENEMY_load_tiles(ind);
-	
-	// GameObject* ball = enemy_pool;
-	// for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-	// 	ENEMY_init(ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, ball_ind);
-	// }
-}
-
-/**
- * Returns the next available index from enemies_list or -1 if there is none.
- */
-s16 get_enemy_available() {
-	for (u8 i = 0; i < LEN(enemy_pool); ++i) {
-		if (!enemy_pool[i].active)
-			return i;
-	}
-	return -1;
+	ind += ENEMY_load_tiles(ind);	
 }
 
 //u16 screen_x, u16 screen_y
@@ -195,20 +173,20 @@ void spawn_enemies() {
 			F16_toInt(mapobj->speed_x), F16_toInt(mapobj->speed_y));
 		#endif
 		
-		s16 available = get_enemy_available();
-		if (available == -1) return;
+		GameObject* enemy = OBJPOOL_get_available(&enemy_pool);
+		if (!enemy) return;
 
-		GameObject* enemy = &enemy_pool[available];
+	// 	ENEMY_init(ball, (SCREEN_W-8)/2, (SCREEN_H-8)/2, ball_ind);
 		ENEMY_init(enemy, mapobj, enemy_tiles_ind);
 	}
 }
 
 void clear_enemy_pool() {
-	GameObject* ball = &enemy_pool[0];
+	PoolableObj* ball = enemy_array;
 	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		if (ball->active) {
-			SPR_releaseSprite(ball->sprite);
-			ball->active = FALSE;
+		if (ball->obj->active) {
+			SPR_releaseSprite(ball->obj->sprite);
+			ball->obj->active = FALSE;
 		}
 	}
 }
@@ -240,7 +218,7 @@ void game_init() {
 	PLAYER_init(ind);
 
 	init_enemy_data_from_map();
-	init_enemy_pool();
+	init_enemies();
 	spawn_enemies(); // spawn enemies in first screen
 }
 
@@ -258,10 +236,10 @@ static inline void color_effects() {
 }
 
 inline void update_enemies() {
-	GameObject* ball = &enemy_pool[0];
+	PoolableObj* ball = enemy_array;
 	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		if (ball->active) {
-			ENEMY_update(ball);
+		if (ball->obj->active) {
+			ENEMY_update(ball->obj);
 		}
 	}
 }
