@@ -47,4 +47,9 @@ void GAMEOBJECT_clamp_screen(GameObject* obj);
 void GAMEOBJECT_wrap_screen(GameObject* obj);
 void GAMEOBJECT_bounce_off_screen(GameObject* obj);
 
+inline void GAMEOBJECT_set_hwsprite_position(GameObject* obj) {
+	GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
+	SPR_setPosition(obj->sprite, obj->box.left + obj->w_offset, obj->box.top + obj->h_offset);
+}
+
 #endif // _STRUCTS_H_

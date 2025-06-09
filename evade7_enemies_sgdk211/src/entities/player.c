@@ -67,8 +67,7 @@ void PLAYER_update() {
 	// GAMEOBJECT_clamp_screen(&player);
 	
 	// update VDP/SGDK
-	GAMEOBJECT_update_boundbox(player.x, player.y, &player);
-	SPR_setPosition(player.sprite, player.box.left + player.w_offset, player.box.top + player.h_offset);
+	GAMEOBJECT_set_hwsprite_position(&player);
 	SPR_setAnim(player.sprite, player.anim);
 }
 

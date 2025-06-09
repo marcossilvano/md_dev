@@ -93,9 +93,8 @@ void ENEMY_update2(GameObject* obj) {
         obj->speed_x = -obj->speed_x;
     }
 
-    GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
+    GAMEOBJECT_set_hwsprite_position(obj);
     GAMEOBJECT_bounce_off_screen(obj);
-    SPR_setPosition(obj->sprite, obj->box.left, obj->box.top);
 }
 
 ////////////////////////////////////////////////////////////////////////////

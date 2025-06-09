@@ -1,7 +1,8 @@
 /**
  * Upgrade para SGDK 2.11
  * ----------------------
- * - Atualizar pasta do SGDK
+ * - Atualizar pasta do SGDK (ou colocar em nova pasta, ex: sgdk211)
+ * - Se Windows: atualizar a variável de ambiente GDK (ex: c:\sgdk211)
  * - Abrir C:\sgdk211\sample\basics\hello-world\src
  *   > Copiar pasta "boot" para "src" deste projeto
   * 
@@ -45,7 +46,7 @@
  * [  ] Efeitos para coleta de itens
  * [  ] Efeitos para ricochetes
  * [  ] Tiles dos itens animados
- * [  ] Inimigos bolas que ricocheteiam
+ * [OK] Inimigos bolas que ricocheteiam
  * [NO] Implementar solução para o Mapa de Itens simplemente usando TileMap descompactado em RAM
  * [OK] Testar consumo de RAM com MAP e sem MAP
  * [OK] Contabilizar item coletado
@@ -99,9 +100,15 @@ u16 enemy_tiles_ind;
  * spawning enemies, when the player enters a new room.
  */
 void init_enemy_data_from_map() {
+	// set all rooms up with zero enemies
+	for (u16 i = 0; i < LEN(enemies_table); i++) {
+		enemies_table[i].first = 1;
+		enemies_table[i].last  = 0;
+	}
+
 	// get first and last index of enemies in each room
 	u8 room = -1;
-	u8 eny = -1;
+	// u8 eny = -1;
 	u16 idx = 0;
 	MapObject* obj;
 	for (; idx < LEN(level1_objects); ++idx) {
@@ -110,24 +117,21 @@ void init_enemy_data_from_map() {
 		text_add_int(obj->room);
 		#endif
 		
-		if (obj->room != room) {		 // reached new room
-			room = obj->room;
-			++eny;
-			enemies_table[eny].first = idx; // store the first enemy in room
-			
-			if (eny > 0) {				 // store the last enemy in previous room
-				enemies_table[eny-1].last = idx-1;
+		if (obj->room != room) {		 			// reached new room
+			if (idx > 0) {				 
+				enemies_table[room].last = idx-1;	// store the last enemy in previous room
 			}
-			
+			room = obj->room;
+			enemies_table[room].first = idx; 		// store the first enemy in room
 		}
-		// room: 1
-		// level1_objects:  00,00,00,01,01,01,01,
+		// room: 0
+		// level1_objects:  00,00,01,05,05,07,07,
 		//                  0  1  2  3  4  5  6
-		//                                    idx
-		// room_enemies = { {0,2}, {3,?}, ...
-		//                          eny
+		//                                 idx
+		// room_enemies = { {0,1}, {1,2}, {1,0}, {1,0}, {3,0}}
+		//                                               room
 	}
-	enemies_table[eny].last = idx-1;
+	enemies_table[room].last = idx-1;
 
 	#ifdef DEBUG_OBJ
 	KLog("All enemy rooms from map:");

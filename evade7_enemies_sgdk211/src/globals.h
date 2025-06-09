@@ -25,8 +25,8 @@ typedef struct {
 
 // MAP CONFIG ///////////////////////////////////////////
 
-#define MAP_METATILES_W 120      // max width of any map in 16x16 tiles
-#define MAP_METATILES_H 120      // max height of any map in 16x16 tiles
+#define MAP_METATILES_W 60      // max width of any map in 16x16 tiles
+#define MAP_METATILES_H 42      // max height of any map in 16x16 tiles
 
 #define HUD_TILES 1             // hud height in tiles
 
