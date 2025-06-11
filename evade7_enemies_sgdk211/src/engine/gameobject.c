@@ -29,7 +29,7 @@ u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite,
 ////////////////////////////////////////////////////////////////////////////
 // UPDATE
 
-u8 check_collision(GameObject* obj1, GameObject* obj2) {
+u8 GAMEOBJECT_check_collision(GameObject* obj1, GameObject* obj2) {
 	GAMEOBJECT_update_boundbox(obj1->x, obj1->y, obj1);
 	GAMEOBJECT_update_boundbox(obj2->x, obj2->y, obj2);
 

@@ -29,6 +29,7 @@ void ENEMY_init(GameObject* const ball, const MapObject* const mapobj, u16 ind);
 
 void ENEMY_bouncer_update(GameObject* obj);
 void ENEMY_warper_update(GameObject* obj);
+void ENEMY_on_hit(GameObject* obj, u8 amount);
 
 ////////////////////////////////////////////////////////////////////////////
 // PRIVATE MEMBERS
