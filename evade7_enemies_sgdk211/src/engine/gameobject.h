@@ -31,7 +31,10 @@ typedef struct GameObject {
 	u8 health;
 	u16 dir;
 
+	struct GameObject* next;		// for the Linked Lists in OBJECTS POOL
+
 	void (*update)(struct GameObject* obj);
+	void (*on_hit)(struct GameObject* obj);
 } GameObject;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -42,6 +45,7 @@ u16 GAMEOBJECT_init(GameObject* const obj, const SpriteDefinition* const sprite,
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC
 
+u8 check_collision(GameObject* obj1, GameObject* obj2);
 void GAMEOBJECT_update_boundbox(f16 x, f16 y, GameObject* obj);
 void GAMEOBJECT_clamp_screen(GameObject* obj);
 void GAMEOBJECT_wrap_screen(GameObject* obj);

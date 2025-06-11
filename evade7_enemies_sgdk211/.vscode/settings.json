@@ -17,6 +17,7 @@
         "enemy.h": "c",
         "level.h": "c",
         "gameobject.h": "c",
-        "sprite_eng.h": "c"
+        "sprite_eng.h": "c",
+        "objects_pool.h": "c"
     },
 }

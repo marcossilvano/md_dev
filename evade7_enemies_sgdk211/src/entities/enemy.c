@@ -28,24 +28,34 @@ void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
     obj->speed_x = mapobj->speed_x;
     obj->speed_y = mapobj->speed_y;
 
+    // check enemy type and define behavior
+    kprintf("ENEMY TYPE: %d", mapobj->type);
+    switch (mapobj->type) {
+        case ENEMY_BOUNCER:
+            obj->update = ENEMY_bouncer_update;
+            SPR_setAnim(obj->sprite, 3);
+            break;
+        case ENEMY_WARPER:
+            obj->update = ENEMY_warper_update;
+            SPR_setAnim(obj->sprite, 1);
+            break;
+    
+        default:
+            obj->update = ENEMY_bouncer_update;
+            SPR_setAnim(obj->sprite, 3);
+            kprintf("ERROR: MAPOBJECTS - unknow enemy type %d. Default to ENEMY_BOUNCER.", mapobj->type);
+    }
+
     SPR_setAutoTileUpload(obj->sprite, FALSE);
     SPR_setFrameChangeCallback(obj->sprite, &frame_changed);
     
-    SPR_setAnim(obj->sprite, 2);
-    SPR_setAnimationLoop(obj->sprite, FALSE);
+    // SPR_setAnimationLoop(obj->sprite, FALSE);
 }
 
 ////////////////////////////////////////////////////////////////////////////
 // GAME LOOP/LOGIC
 
-void ENEMY_update1(GameObject* obj);
-void ENEMY_update2(GameObject* obj);
-
-void ENEMY_update(GameObject* obj) {
-    ENEMY_update1(obj);
-}
-
-void ENEMY_update1(GameObject* obj) {
+void ENEMY_bouncer_update(GameObject* obj) {
     obj->x += obj->speed_x;
     obj->y += obj->speed_y;
 
@@ -74,28 +84,39 @@ void ENEMY_update1(GameObject* obj) {
     }
 
     GAMEOBJECT_bounce_off_screen(obj);
-    SPR_setPosition(obj->sprite, obj->box.left, obj->box.top);
-}
-
-void ENEMY_update2(GameObject* obj) {
-    obj->next_x = obj->x + obj->speed_x;
-    obj->next_y = obj->y + obj->speed_y;
-
-    LEVEL_move_and_slide(obj);
-
-    obj->x = obj->next_x;
-    obj->y = obj->next_y;
-
-    if (LEVEL_collision_result() & COLLISION_BOTTOM || LEVEL_collision_result() & COLLISION_TOP) {
-        obj->speed_y = -obj->speed_y;
-    }
-    if (LEVEL_collision_result() & COLLISION_LEFT || LEVEL_collision_result() & COLLISION_RIGHT) {
-        obj->speed_x = -obj->speed_x;
-    }
-
     GAMEOBJECT_set_hwsprite_position(obj);
-    GAMEOBJECT_bounce_off_screen(obj);
 }
+
+void ENEMY_warper_update(GameObject* obj) {
+    obj->x += obj->speed_x;
+    obj->y += obj->speed_y;
+    
+    GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
+    // GAMEOBJECT_wrap_screen(obj);
+    GAMEOBJECT_bounce_off_screen(obj);
+    GAMEOBJECT_set_hwsprite_position(obj);
+}
+
+// Much worst performer...
+// void ENEMY_update2(GameObject* obj) {
+//     obj->next_x = obj->x + obj->speed_x;
+//     obj->next_y = obj->y + obj->speed_y;
+
+//     LEVEL_move_and_slide(obj);
+
+//     obj->x = obj->next_x;
+//     obj->y = obj->next_y;
+
+//     if (LEVEL_collision_result() & COLLISION_BOTTOM || LEVEL_collision_result() & COLLISION_TOP) {
+//         obj->speed_y = -obj->speed_y;
+//     }
+//     if (LEVEL_collision_result() & COLLISION_LEFT || LEVEL_collision_result() & COLLISION_RIGHT) {
+//         obj->speed_x = -obj->speed_x;
+//     }
+
+//     GAMEOBJECT_set_hwsprite_position(obj);
+//     GAMEOBJECT_bounce_off_screen(obj);
+// }
 
 ////////////////////////////////////////////////////////////////////////////
 // PRIVATE FUNCTIONS

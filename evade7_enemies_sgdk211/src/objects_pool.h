@@ -4,19 +4,18 @@
 #include <genesis.h>
 #include "engine/gameobject.h"
 
-typedef struct PoolableObj {
-	GameObject* obj;
-	struct PoolableObj* next;
-} PoolableObj;
-
 typedef struct {
-    PoolableObj* active;	    // head of active objects (used) linked list
-	PoolableObj* free;		// head of available objects linked list
+    GameObject* active;	     // head of active objects (used) linked list
+	GameObject* free;		 // head of available objects linked list
+    GameObject* curr_active; // loop through active list
 } ObjectsPool;
 
 
-void print_array(PoolableObj* array, u8 n);
-void OBJPOOL_init(ObjectsPool* pool, PoolableObj* array, u8 n);
+void OBJPOOL_init(ObjectsPool* pool, GameObject* array, u8 n);
+void OBJPOOL_clear(ObjectsPool* pool);
+
 GameObject* OBJPOOL_get_available(ObjectsPool* pool);
+GameObject* OBJPOOL_loop_init(ObjectsPool* pool);
+GameObject* OBJPOOL_loop_next(ObjectsPool* pool);
 
 #endif

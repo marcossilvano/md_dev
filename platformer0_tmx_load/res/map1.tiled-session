@@ -293,7 +293,7 @@
         "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx"
     ],
     "project": "map1.tiled-project",
-    "property.type": "float",
+    "property.type": "MapObject",
     "recentFiles": [
         "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level1/level1_map.tmx",
         "D:/GitHub/md_dev/evade7_enemies_sgdk211/res/levels/level2/level1_map.tmx",

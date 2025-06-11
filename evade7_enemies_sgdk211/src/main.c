@@ -89,7 +89,7 @@ RoomEnemies enemies_table[NUMBER_OF_ROOMS];
 // enemies pool
 #define MAX_OBJ 30
 ObjectsPool enemy_pool;
-PoolableObj enemy_array[MAX_OBJ];
+GameObject enemy_array[MAX_OBJ];
 u16 enemy_tiles_ind;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -99,20 +99,19 @@ u16 enemy_tiles_ind;
  * Build enemy lookup table for indexed access when 
  * spawning enemies, when the player enters a new room.
  */
-void init_enemy_data_from_map() {
+void init_enemy_data_from_map(const void* level_objects[], u16 n) {
 	// set all rooms up with zero enemies
 	for (u16 i = 0; i < LEN(enemies_table); i++) {
 		enemies_table[i].first = 1;
 		enemies_table[i].last  = 0;
 	}
 
-	// get first and last index of enemies in each room
+	// gets first and last index of enemies in each room
 	u8 room = -1;
-	// u8 eny = -1;
 	u16 idx = 0;
 	MapObject* obj;
-	for (; idx < LEN(level1_objects); ++idx) {
-		obj = (MapObject*) level1_objects[idx];
+	for (; idx < n; ++idx) {
+		obj = (MapObject*) level_objects[idx];
 		#ifdef DEBUG_OBJ
 		text_add_int(obj->room);
 		#endif
@@ -124,12 +123,6 @@ void init_enemy_data_from_map() {
 			room = obj->room;
 			enemies_table[room].first = idx; 		// store the first enemy in room
 		}
-		// room: 0
-		// level1_objects:  00,00,01,05,05,07,07,
-		//                  0  1  2  3  4  5  6
-		//                                 idx
-		// room_enemies = { {0,1}, {1,2}, {1,0}, {1,0}, {3,0}}
-		//                                               room
 	}
 	enemies_table[room].last = idx-1;
 
@@ -149,16 +142,15 @@ void init_enemy_data_from_map() {
 }
 
 void init_enemies() {
-	// OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
-	print_array(enemy_array, LEN(enemy_array));
+	init_enemy_data_from_map(level1_objects, LEN(level1_objects));
+
 	OBJPOOL_init(&enemy_pool, enemy_array, LEN(enemy_array));
-	print_array(enemy_array, LEN(enemy_array));
+
 	// load enemy tiles
 	enemy_tiles_ind = ind;
-	ind += ENEMY_load_tiles(ind);	
+	ind += ENEMY_load_tiles(ind);
 }
 
-//u16 screen_x, u16 screen_y
 void spawn_enemies() {
 	// spawn enemies in current room
 	u8 room = LEVEL_current_room();
@@ -168,9 +160,8 @@ void spawn_enemies() {
 	#endif
 
 	for (u16 i = enemies_table[room].first; i <= enemies_table[room].last; ++i) {
-// 		MapObject* p = (MapObject*) level1_objects[i];
-
 		MapObject* mapobj = (MapObject*)level1_objects[i];
+
 		#ifdef DEBUG_OBJ
 		kprintf("room: %d, pos %ld %ld, spd: %d %d", 
 			mapobj->room, F32_toInt(mapobj->x), F32_toInt(mapobj->y), 
@@ -186,13 +177,7 @@ void spawn_enemies() {
 }
 
 void clear_enemy_pool() {
-	PoolableObj* ball = enemy_array;
-	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		if (ball->obj->active) {
-			SPR_releaseSprite(ball->obj->sprite);
-			ball->obj->active = FALSE;
-		}
-	}
+	OBJPOOL_clear(&enemy_pool);
 }
 
 void game_init() {
@@ -221,7 +206,6 @@ void game_init() {
 
 	PLAYER_init(ind);
 
-	init_enemy_data_from_map();
 	init_enemies();
 	spawn_enemies(); // spawn enemies in first screen
 }
@@ -240,10 +224,10 @@ static inline void color_effects() {
 }
 
 inline void update_enemies() {
-	PoolableObj* ball = enemy_array;
+	GameObject* ball = enemy_array;
 	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		if (ball->obj->active) {
-			ENEMY_update(ball->obj);
+		if (ball->active) {
+			ball->update(ball);
 		}
 	}
 }

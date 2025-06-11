@@ -8,4 +8,4 @@ TILESET level1_tiles      "levels/level1/level1_tiles.png" BEST ALL
 PALETTE level1_pal        "levels/level1/level1_pal.pal"
 MAP     level1_map        "levels/level1/level1_map.tmx" map_layer BEST 0
 
-OBJECTS level1_objects    "levels/level1/level1_map.tmx" objects_layer "room:u16;x:f32;y:f32;speed_x:f16;speed_y:f16" "sortby:room"
+OBJECTS level1_objects    "levels/level1/level1_map.tmx" objects_layer "room:u16;x:f32;y:f32;speed_x:f16;speed_y:f16;enemy_type:u8" "sortby:room"

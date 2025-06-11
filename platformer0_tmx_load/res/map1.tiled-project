@@ -24,10 +24,26 @@
             "valuesAsFlags": false
         },
         {
+            "id": 4,
+            "name": "EnemyType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "ENEMY_BOUNCER",
+                "ENEMY_WARPER"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 3,
             "members": [
+                {
+                    "name": "enemy_type",
+                    "type": "int",
+                    "value": 0
+                },
                 {
                     "name": "exportPosition",
                     "type": "bool",

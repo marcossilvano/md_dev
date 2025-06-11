@@ -6,15 +6,7 @@
 #include "resources.h"
 
 // #define DEBUG_LEVEL
-#define DEBUG_OBJ
-
-typedef struct {
-	u16 room;
-    f32 x;
-	f32 y;
-    f16 speed_x;
-    f16 speed_y;
-} MapObject;
+// #define DEBUG_OBJ
 
 /*** YOU MUST MODIFY *************************************************
     
