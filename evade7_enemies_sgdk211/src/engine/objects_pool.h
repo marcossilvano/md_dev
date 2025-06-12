@@ -14,6 +14,7 @@ typedef struct {
 void OBJPOOL_init(ObjectsPool* pool, GameObject* array, u8 n);
 void OBJPOOL_clear(ObjectsPool* pool);
 
+void OBJPOOL_release(ObjectsPool* pool, GameObject* obj);
 GameObject* OBJPOOL_get_available(ObjectsPool* pool);
 GameObject* OBJPOOL_loop_init(ObjectsPool* pool);
 GameObject* OBJPOOL_loop_next(ObjectsPool* pool);

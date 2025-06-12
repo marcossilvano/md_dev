@@ -68,7 +68,7 @@
 #include "engine/level.h"
 #include "entities/player.h"
 #include "entities/enemy.h"
-#include "objects_pool.h"
+#include "engine/objects_pool.h"
 
 // index for tiles in VRAM (first tile reserved for SGDK)
 // u16 ind = 1;
@@ -224,10 +224,20 @@ static inline void color_effects() {
 }
 
 inline void update_enemies() {
-	GameObject* ball = enemy_array;
-	for (u8 i = 0; i < MAX_OBJ; ++i, ++ball) {
-		if (ball->active) {
-			ball->update(ball);
+	GameObject* obj = OBJPOOL_loop_init(&enemy_pool);
+	while (obj) {
+		obj->update(obj);
+		GameObject* obj_to_release = NULL;
+
+		if (GAMEOBJECT_check_collision(&player, obj)) {
+			PLAYER_on_hit(1);
+			//obj->on_hit(obj, 1);
+			obj_to_release = obj;
+		}
+		
+		obj = OBJPOOL_loop_next(&enemy_pool);
+		if (obj_to_release) {
+			OBJPOOL_release(&enemy_pool, obj_to_release);
 		}
 	}
 }

@@ -12,9 +12,13 @@ GameObject player;
 // PRIVATE MEMBERS
 
 static inline void PLAYER_get_input_platformer();
+
 static inline void PLAYER_get_input_dir4();
 static inline void PLAYER_get_input_dir8();
+
+static inline void PLAYER_get_input_dir4_2();
 static inline void PLAYER_get_input_dir8_2();
+
 static inline bool on_ground();
 
 ////////////////////////////////////////////////////////////////////////////
@@ -32,7 +36,8 @@ u16 PLAYER_init(u16 ind) {
 void PLAYER_update() {
 	// input
 	// PLAYER_get_input_dir4();
-	PLAYER_get_input_dir8_2();
+	// PLAYER_get_input_dir8_2();
+	PLAYER_get_input_dir4_2();
 	// PLAYER_get_input_platformer();
 	
 	// project next position
@@ -69,6 +74,10 @@ void PLAYER_update() {
 	// update VDP/SGDK
 	GAMEOBJECT_set_hwsprite_position(&player);
 	SPR_setAnim(player.sprite, player.anim);
+}
+
+void PLAYER_on_hit(u8 amount) {
+	KLog("Player hit!");
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -181,11 +190,37 @@ static inline void PLAYER_get_input_dir4() {
 // 		}
 // }
 
-static void PLAYER_get_input_dir8_2() {
-	// Vect2D_s16 input;
-	// input.x = key_down(JOY_1, BUTTON_RIGHT) - key_down(JOY_1, BUTTON_LEFT);
-	// input.y = key_down(JOY_1, BUTTON_DOWN)  - key_down(JOY_1, BUTTON_UP);
+static void PLAYER_get_input_dir4_2() {
+	if (key_down(JOY_1, BUTTON_RIGHT)) {
+		player.dir = 0;
+	} else 
+	if (key_down(JOY_1, BUTTON_LEFT)) {
+		player.dir = 128 * 4;
+	} else	
+	if (key_down(JOY_1, BUTTON_UP)) {
+		player.dir = 128 * 2;
+	} else
+	if (key_down(JOY_1, BUTTON_DOWN)) {
+		player.dir = 128 * 6;
+	} 
 
+	if (key_any(JOY_1)) {
+		// define player x,y speed by scaling the direction vector
+		player.speed += PLAYER_ACCEL;
+		player.speed = min(player.speed, PLAYER_SPEED);
+	} else {
+		player.speed -= PLAYER_ACCEL;
+		player.speed = max(player.speed, 0);
+	}
+	player.speed_x = F16_mul(  cosFix16(player.dir), player.speed );
+	player.speed_y = F16_mul( -sinFix16(player.dir), player.speed );
+
+	// limit_speed_vector();
+
+	player.anim = player.dir / 128; 
+}
+
+static void PLAYER_get_input_dir8_2() {
 	if (key_down(JOY_1, BUTTON_RIGHT)) {
 		if (key_down(JOY_1, BUTTON_UP)) {
 			player.dir = 128 * 1;
@@ -237,7 +272,6 @@ static void PLAYER_get_input_dir8_2() {
 
 	player.anim = player.dir / 128; 
 }
-
 
 /**
  * Get player input and set ship speed with:

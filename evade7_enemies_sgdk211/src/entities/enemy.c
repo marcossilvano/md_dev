@@ -29,22 +29,23 @@ void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
     obj->speed_y = mapobj->speed_y;
 
     // check enemy type and define behavior
-    kprintf("ENEMY TYPE: %d", mapobj->type);
     switch (mapobj->type) {
         case ENEMY_BOUNCER:
             obj->update = ENEMY_bouncer_update;
             SPR_setAnim(obj->sprite, 3);
             break;
+    
         case ENEMY_WARPER:
             obj->update = ENEMY_warper_update;
             SPR_setAnim(obj->sprite, 1);
             break;
-    
+            
         default:
             obj->update = ENEMY_bouncer_update;
             SPR_setAnim(obj->sprite, 3);
             kprintf("ERROR: MAPOBJECTS - unknow enemy type %d. Default to ENEMY_BOUNCER.", mapobj->type);
-    }
+        }
+    obj->on_hit = ENEMY_on_hit;
 
     SPR_setAutoTileUpload(obj->sprite, FALSE);
     SPR_setFrameChangeCallback(obj->sprite, &frame_changed);
@@ -95,6 +96,12 @@ void ENEMY_warper_update(GameObject* obj) {
     // GAMEOBJECT_wrap_screen(obj);
     GAMEOBJECT_bounce_off_screen(obj);
     GAMEOBJECT_set_hwsprite_position(obj);
+
+    SPR_setVisibility(obj->sprite, !SPR_getVisibility(obj->sprite));
+}
+
+void ENEMY_on_hit(GameObject* obj, u8 amount) {
+    KLog("Enemy hit!");
 }
 
 // Much worst performer...

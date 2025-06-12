@@ -102,6 +102,18 @@ void OBJPOOL_clear(ObjectsPool* pool) {
 }
 
 /**
+ * Removes specific GameObject from active list, making it available to reuse (through free list).
+ * OBS: Calls SPR_releaseSprite() and sets active=FALSE for every previously active obj.
+ */
+void OBJPOOL_release(ObjectsPool* pool, GameObject* obj) {
+    LINKEDLIST_remove(&pool->active, obj);
+    LINKEDLIST_add(&pool->free, obj);
+    
+    SPR_releaseSprite(obj->sprite);
+    obj->active = FALSE;
+}
+
+/**
  * Returns the next available GameObject from pool or NULL if there is none.
  * OBS: It doesn't set GameObject::active to TRUE.
  */
