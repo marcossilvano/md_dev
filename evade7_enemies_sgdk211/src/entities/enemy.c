@@ -25,8 +25,8 @@ void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
 	f32 y = F32_toInt(mapobj->y) % SCREEN_H - 16;
 
     GAMEOBJECT_init(obj, &spr_ball, x, y, -4, -4, PAL_ENEMY, ind);
-    obj->speed_x = mapobj->speed_x;
-    obj->speed_y = mapobj->speed_y;
+    obj->speed_x = F16_mul(  cosFix16(mapobj->direction * 128), mapobj->speed );
+    obj->speed_y = F16_mul( -sinFix16(mapobj->direction * 128), mapobj->speed );
 
     // check enemy type and define behavior
     switch (mapobj->type) {
@@ -93,8 +93,8 @@ void ENEMY_warper_update(GameObject* obj) {
     obj->y += obj->speed_y;
     
     GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
-    // GAMEOBJECT_wrap_screen(obj);
-    GAMEOBJECT_bounce_off_screen(obj);
+    GAMEOBJECT_wrap_screen(obj);
+    // GAMEOBJECT_bounce_off_screen(obj);
     GAMEOBJECT_set_hwsprite_position(obj);
 
     SPR_setVisibility(obj->sprite, !SPR_getVisibility(obj->sprite));

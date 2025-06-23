@@ -40,6 +40,11 @@
             "id": 3,
             "members": [
                 {
+                    "name": "direction",
+                    "type": "int",
+                    "value": 0
+                },
+                {
                     "name": "enemy_type",
                     "type": "int",
                     "value": 0
@@ -55,14 +60,9 @@
                     "value": 0
                 },
                 {
-                    "name": "speed_x",
+                    "name": "speed",
                     "type": "float",
-                    "value": 999
-                },
-                {
-                    "name": "speed_y",
-                    "type": "float",
-                    "value": 999
+                    "value": 0
                 }
             ],
             "name": "MapObject",

@@ -3,18 +3,11 @@
 
 #include "resources.h"
 #include "engine/gameobject.h"
+#include "engine/mapobjects.h"
 
 #define ENEMY_BOUNCER 0
 #define ENEMY_WARPER  1
-
-typedef struct {
-	u16 room;
-    f32 x;
-	f32 y;
-    f16 speed_x;
-    f16 speed_y;
-    u8 type;
-} MapObject;
+#define ENEMY_CANNON  2
 
 #define BALL_MAX_SPEED 3
 

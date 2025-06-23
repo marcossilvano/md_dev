@@ -1,0 +1,136 @@
+#include <genesis.h>
+#include "enemy.h"
+#include "engine/level.h"
+
+static u16** ball_indexes;
+
+////////////////////////////////////////////////////////////////////////////
+// PRIVATE PROTOTYPES
+
+static void frame_changed(Sprite* sprite);
+static void ENEMY_cannon_update(GameObject* obj);
+static void ENEMY_bouncer_update(GameObject* obj);
+static void ENEMY_warper_update(GameObject* obj);
+static void ENEMY_on_hit(GameObject* obj, u8 amount);
+
+////////////////////////////////////////////////////////////////////////////
+// INITIALIZATION
+
+u16 ENEMY_load_tiles(u16 ind) {
+	u16 num_tiles;
+	ball_indexes = SPR_loadAllFrames(&spr_ball, ind, &num_tiles);
+	
+    return num_tiles;
+}
+
+void ENEMY_init(GameObject* const obj, const MapObject* const mapobj, u16 ind) {
+    // convert map coord to screen coord (and fix 1 tile offset y from Tiled)
+	f32 x = F32_toInt(mapobj->x) % SCREEN_W;
+	f32 y = F32_toInt(mapobj->y) % SCREEN_H - 16;
+
+    // check enemy type and define behavior
+    switch (mapobj->type) {
+        case ENEMY_BOUNCER:
+            GAMEOBJECT_init(obj, &spr_ball, x, y, -4, -4, PAL_ENEMY, ind);
+            obj->update = ENEMY_bouncer_update;
+            SPR_setAnim(obj->sprite, 2);
+            break;
+        
+        case ENEMY_WARPER:
+            GAMEOBJECT_init(obj, &spr_ball, x, y, -4, -4, PAL_ENEMY, ind);
+            obj->update = ENEMY_warper_update;
+            SPR_setAnim(obj->sprite, 1);
+            break;
+        
+        case ENEMY_CANNON:
+            GAMEOBJECT_init(obj, NULL, x, y, -4, -4, PAL_ENEMY, ind);
+            obj->update = ENEMY_cannon_update;
+            break;
+        
+        default:
+            obj->update = ENEMY_bouncer_update;
+            SPR_setAnim(obj->sprite, 3);
+            kprintf("ERROR: MAPOBJECTS - unknow enemy type %d. Default to ENEMY_BOUNCER.", mapobj->type);
+    }
+
+    obj->speed_x = F16_mul(-cosFix16(mapobj->direction * 128), mapobj->speed );
+    obj->speed_y = F16_mul( sinFix16(mapobj->direction * 128), mapobj->speed );
+    obj->on_hit = ENEMY_on_hit;
+
+    if (obj->sprite) {
+        SPR_setAutoTileUpload(obj->sprite, FALSE);
+        SPR_setFrameChangeCallback(obj->sprite, &frame_changed);
+    }
+    
+    // SPR_setAnimationLoop(obj->sprite, FALSE);
+}
+
+////////////////////////////////////////////////////////////////////////////
+// GAME LOOP/LOGIC PRIVATE FUNCTIONS
+
+static void ENEMY_cannon_update(GameObject* obj) {
+    // cannon must have the following map properties 
+    // - direction
+    // - number of bullet to shot at once
+    // - angle range
+    // - shot rate
+    // - speed of bullets
+    
+    // spawn bullets from bullets pool
+}
+
+static void ENEMY_bouncer_update(GameObject* obj) {
+    obj->x += obj->speed_x;
+    obj->y += obj->speed_y;
+
+    GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
+
+    if (obj->speed_x > 0) {				// moving right
+		if (LEVEL_wallXY(obj->box.right, obj->box.top + obj->h/2)) {
+            obj->speed_x = -obj->speed_x;
+        }
+    } 
+    else if (obj->speed_x < 0) {		// moving left
+        if (LEVEL_wallXY(obj->box.left, obj->box.top + obj->h/2)) {
+                obj->speed_x = -obj->speed_x;
+        }
+    }
+        
+    if (obj->speed_y < 0) {             // moving up
+        if (LEVEL_wallXY(obj->box.left + obj->w/2, obj->box.top)) {
+            obj->speed_y = -obj->speed_y;
+        }
+    }
+    else if (obj->speed_y > 0) {        // moving down
+        if (LEVEL_wallXY(obj->box.left + obj->w/2, obj->box.bottom)) {
+            obj->speed_y = -obj->speed_y;
+        }
+    }
+
+    GAMEOBJECT_bounce_off_screen(obj);
+    GAMEOBJECT_set_hwsprite_position(obj);
+}
+
+static void ENEMY_warper_update(GameObject* obj) {
+    obj->x += obj->speed_x;
+    obj->y += obj->speed_y;
+    
+    GAMEOBJECT_update_boundbox(obj->x, obj->y, obj);
+    GAMEOBJECT_wrap_screen(obj);
+    // GAMEOBJECT_bounce_off_screen(obj);
+    GAMEOBJECT_set_hwsprite_position(obj);
+
+    SPR_setVisibility(obj->sprite, !SPR_getVisibility(obj->sprite));
+}
+
+static void ENEMY_on_hit(GameObject* obj, u8 amount) {
+    KLog("Enemy hit!");
+}
+
+static void frame_changed(Sprite* sprite) {
+    // get VRAM tile index for this animation of this sprite
+    u16 tileIndex = ball_indexes[sprite->animInd][sprite->frameInd];
+	
+    // manually set tile index for the current frame (preloaded in VRAM)
+    SPR_setVRAMTileIndex(sprite, tileIndex);
+}

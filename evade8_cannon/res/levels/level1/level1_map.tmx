@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="60" height="42" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="56">
+ <tileset firstgid="1" source="enemy_markers.tsx"/>
+ <tileset firstgid="11" source="level1_tiles2.tsx"/>
+ <layer id="1" name="map_layer" width="60" height="42">
+  <data encoding="csv">
+11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,16,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,16,12,
+12,0,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,0,12,12,0,16,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,16,16,0,0,0,0,0,0,16,16,0,0,0,0,0,0,16,16,12,
+12,0,16,14,16,16,16,16,16,16,16,16,16,16,16,16,16,14,0,12,12,0,16,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,11,11,0,0,0,0,16,16,0,0,0,0,11,11,0,0,12,
+12,0,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,0,12,12,0,0,0,0,0,0,0,0,0,0,0,11,13,13,13,13,13,13,11,12,0,0,11,0,16,16,16,0,0,0,0,16,16,16,0,11,0,0,12,
+12,0,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,0,11,11,13,13,13,13,13,11,0,0,0,0,0,12,0,0,0,0,0,0,12,12,0,0,0,0,16,16,16,0,0,0,0,16,16,16,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,0,11,11,0,0,0,0,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,11,11,0,0,12,12,0,0,0,0,0,0,0,0,11,11,0,0,0,0,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,11,13,13,13,13,13,11,0,0,0,0,0,12,0,0,11,11,0,0,12,12,0,0,0,0,16,16,16,0,0,0,0,16,16,16,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,0,0,0,12,0,0,0,0,0,12,0,0,0,0,0,0,11,12,0,0,11,0,16,16,16,0,0,0,0,16,16,16,0,11,0,0,12,
+12,0,0,14,0,11,11,11,11,11,11,11,11,11,11,0,0,14,0,12,12,0,0,0,0,0,11,0,0,0,0,0,11,0,0,16,16,0,0,12,12,0,0,11,11,0,0,0,0,16,16,0,0,0,0,11,11,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,16,0,0,12,12,16,16,0,0,0,0,0,0,16,16,0,0,0,0,0,0,16,16,12,
+12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,16,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,16,12,
+11,13,13,13,13,13,13,13,13,13,13,13,11,0,0,0,0,11,13,11,11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,11,0,0,11,13,11,0,0,11,13,13,11,
+11,13,13,13,13,13,13,13,13,13,13,13,11,0,0,0,0,11,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,13,13,13,13,13,13,13,11,0,0,11,13,11,0,0,11,13,13,11,
+12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,12,0,12,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,12,0,0,0,0,0,0,0,12,0,0,12,0,0,0,0,0,0,0,12,
+12,0,16,16,16,16,16,16,16,16,16,0,12,0,0,0,0,12,0,12,11,0,16,16,16,0,0,0,0,0,0,0,0,0,0,16,16,16,0,11,12,0,16,16,16,16,16,0,12,0,0,12,0,0,16,0,0,0,0,12,
+12,0,16,16,16,16,16,16,16,16,16,0,12,0,0,0,0,12,0,12,11,0,16,16,16,0,0,0,0,0,0,0,0,0,0,16,16,16,0,11,12,0,16,16,16,16,16,0,12,0,0,12,0,0,16,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,11,13,11,11,0,0,0,0,0,0,11,13,13,13,13,11,0,0,0,0,0,0,11,12,0,0,0,0,0,0,0,12,0,0,12,0,0,16,0,0,0,0,12,
+11,13,13,13,11,0,0,0,11,13,13,13,11,0,0,0,0,0,0,0,0,0,0,0,11,13,13,11,0,0,0,0,11,13,13,11,0,0,0,11,12,0,0,0,0,0,0,0,11,0,0,12,0,0,16,0,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,12,0,0,0,11,12,0,0,0,0,0,0,0,0,0,0,12,0,0,0,16,0,0,0,12,
+12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,12,0,0,0,11,12,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,16,0,0,12,
+12,0,0,11,0,0,0,0,0,0,0,0,11,13,13,13,13,13,13,11,11,0,0,0,11,13,13,11,0,0,0,0,11,13,13,11,0,0,0,11,12,0,0,0,0,0,0,0,11,0,0,12,0,0,0,0,0,16,0,12,
+12,0,0,12,0,0,0,0,0,0,0,0,0,0,0,16,16,0,0,12,11,0,0,0,0,0,0,11,13,13,13,13,11,0,0,0,0,0,0,11,12,0,0,0,0,0,0,0,12,0,0,12,0,0,0,0,0,16,0,12,
+12,0,0,11,13,13,13,13,11,0,0,0,0,0,16,16,16,16,0,12,11,0,16,16,16,0,0,0,0,0,0,0,0,0,0,16,16,16,0,11,12,0,16,16,16,16,16,0,12,0,0,12,0,0,0,0,0,16,0,12,
+12,0,0,0,16,16,16,16,12,0,0,0,0,0,16,16,16,16,0,12,11,0,16,16,16,0,0,0,0,0,0,0,0,0,0,16,16,16,0,11,12,0,16,16,16,16,16,0,12,0,0,12,0,0,0,0,0,16,0,12,
+12,0,0,0,16,16,16,16,12,0,0,0,0,0,0,16,16,0,0,12,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,12,0,0,0,0,0,0,0,12,0,0,12,0,0,0,0,0,0,0,12,
+11,13,13,13,13,13,13,13,11,0,0,0,11,13,13,13,13,13,13,11,11,11,11,11,11,11,11,11,0,0,0,0,11,11,11,11,11,11,11,11,11,13,13,13,13,13,13,13,11,0,0,11,13,13,13,13,11,0,0,11,
+11,13,13,13,13,13,13,13,11,0,0,0,11,13,13,13,13,13,13,11,11,13,13,13,13,13,13,11,0,0,0,0,11,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,11,0,0,11,13,13,13,13,11,0,0,11,
+12,16,16,0,0,0,16,16,12,0,0,0,12,16,16,0,0,16,16,12,12,0,0,0,0,0,0,12,0,0,0,0,12,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,12,0,0,12,0,0,0,0,0,0,0,12,
+12,16,16,0,0,0,16,16,12,0,0,0,12,16,16,0,0,16,16,12,12,0,16,16,16,16,0,12,0,0,0,0,12,0,16,16,16,16,0,12,12,0,0,16,16,16,0,0,12,0,0,12,0,0,0,0,0,0,0,12,
+12,0,0,11,13,11,0,0,12,0,0,0,12,0,0,11,11,0,0,12,12,0,16,16,16,16,0,11,0,0,0,0,11,0,16,16,16,16,0,12,12,0,16,0,0,0,16,0,12,0,0,12,0,0,16,16,16,0,0,12,
+12,0,0,12,0,12,0,0,11,0,0,0,12,0,0,12,12,0,0,12,12,0,16,16,16,16,0,0,0,0,0,0,0,0,16,16,16,16,0,11,11,0,16,0,0,0,16,0,12,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,12,0,12,0,0,0,0,0,0,12,0,0,12,12,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,16,0,12,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,12,0,12,0,0,0,0,0,0,12,0,0,12,12,0,0,12,11,13,13,13,13,11,0,0,11,11,11,11,0,0,0,0,0,0,0,0,0,0,16,0,0,0,16,0,12,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,12,0,11,13,13,13,13,13,13,11,0,0,12,12,0,0,12,12,0,0,0,0,12,0,0,11,11,11,11,0,0,11,13,13,13,13,11,11,0,0,16,16,16,0,0,12,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,12,0,12,15,15,0,0,0,0,0,15,15,12,12,0,0,12,12,0,0,0,0,12,0,0,11,11,11,11,0,0,12,0,0,0,0,12,12,0,0,0,0,0,0,0,12,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,12,0,12,15,15,0,0,0,0,0,15,15,12,12,0,0,11,11,13,13,13,13,11,0,0,11,11,11,11,0,0,11,13,13,13,13,11,11,13,13,13,13,13,13,13,11,0,0,12,0,16,0,0,0,16,0,12,
+12,0,0,11,13,11,0,0,11,13,13,13,13,13,13,11,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,16,16,16,0,0,12,
+12,15,15,0,0,0,0,0,0,0,0,15,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,12,
+12,15,15,0,0,0,0,0,0,0,0,15,15,0,0,0,0,0,0,11,11,13,13,13,13,13,11,13,13,13,13,13,13,11,13,13,13,13,13,11,11,13,13,13,13,13,13,13,13,13,13,11,0,0,0,0,0,0,0,12,
+11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11,11,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,11
+</data>
+ </layer>
+ <objectgroup id="2" name="objects_layer">
+  <object id="1" name="Bouncer" type="MapObject" gid="1" x="400" y="64" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="2" name="Bouncer" type="MapObject" gid="1" x="464" y="160" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="3" name="Bouncer" type="MapObject" gid="1" x="464" y="176" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="4" name="Bouncer" type="MapObject" gid="1" x="536" y="144" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="1"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="5" name="Bouncer" type="MapObject" gid="1" x="224" y="96" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="270"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="6" name="Bouncer" type="MapObject" gid="1" x="80" y="96" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="90"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="8" name="Ricochet Ball" type="MapObject" gid="1" x="144" y="192" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="31" name="Bouncer" type="MapObject" gid="1" x="416" y="384" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="4"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="32" name="Bouncer" type="MapObject" gid="1" x="528" y="304" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="4"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="33" name="Bouncer" type="MapObject" gid="1" x="528" y="384" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="4"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="34" name="Bouncer" type="MapObject" gid="1" x="416" y="304" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="enemy_type" type="int" value="0"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="4"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="35" name="Warper" type="MapObject" gid="3" x="112" y="160" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="135"/>
+    <property name="enemy_type" type="int" value="1"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="37" type="MapObject" gid="5" x="272" y="176" width="16" height="16">
+   <properties>
+    <property name="exportRotation" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="42" name="Warper" type="MapObject" gid="3" x="96" y="144" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="135"/>
+    <property name="enemy_type" type="int" value="1"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="43" name="Warper" type="MapObject" gid="3" x="80" y="128" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="135"/>
+    <property name="enemy_type" type="int" value="1"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="44" name="Warper" type="MapObject" gid="3" x="64" y="112" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="135"/>
+    <property name="enemy_type" type="int" value="1"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="45" name="Warper" type="MapObject" gid="3" x="48" y="96" width="16" height="16">
+   <properties>
+    <property name="direction" type="int" value="135"/>
+    <property name="enemy_type" type="int" value="1"/>
+    <property name="exportPosition" type="bool" value="true"/>
+    <property name="exportRotation" type="bool" value="true"/>
+    <property name="room" type="int" value="0"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

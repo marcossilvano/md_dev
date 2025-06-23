@@ -43,11 +43,6 @@ u8 GAMEOBJECT_check_collision(GameObject* obj1, GameObject* obj2) {
  * Updates GameObject's bound box (integer values) from positions and size (fix16).
  */
 void GAMEOBJECT_update_boundbox(f16 x, f16 y, GameObject* obj) {
-	// obj->box.left  = fix16ToInt(x);
-	// obj->box.top   = fix16ToInt(y);
-	// obj->box.right = fix16ToInt(x) + obj->w;// - 1;
-	// obj->box.bottom= fix16ToInt(y) + obj->h;// - 1;
-
 	obj->box.left  = F16_toInt(x);
 	obj->box.top   = F16_toInt(y);
 	obj->box.right = F16_toInt(x) + obj->w;// - 1;
@@ -66,8 +61,19 @@ void GAMEOBJECT_clamp_screen(GameObject* obj) {
  * Wraps object around screen bounds.
  */
 void GAMEOBJECT_wrap_screen(GameObject* obj) {
-	WRAP(obj->box.left, -obj->w/2, SCREEN_W - obj->w/2)
-	WRAP(obj->box.top,  -obj->h/2, SCREEN_H - obj->h/2)
+	if (obj->box.left < -obj->w/2) {
+		obj->x += SCREEN_W_F16;
+	} else
+	if (obj->box.left > SCREEN_W - obj->w/2) {
+		obj->x -= SCREEN_W_F16;
+	}
+
+	if (obj->box.top < -obj->h/2) {
+		obj->y += SCREEN_H_F16;
+	} else
+	if (obj->box.top > SCREEN_H - obj->h/2) {
+		obj->y -= SCREEN_H_F16;
+	}
 }
 
 /**

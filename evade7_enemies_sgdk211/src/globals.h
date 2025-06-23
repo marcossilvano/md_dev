@@ -75,7 +75,10 @@
 #define MAP_W MAP_METATILES_W * METATILE_W
 #define MAP_H MAP_METATILES_H * METATILE_W
 
-// maximum number of screens (rooms) in a map
+// maximum number of screens (rooms) in any map
+#define MAX_NUMBER_OF_ROOMS 32
+
+// number of rooms in current map (should be replaced by a table/var)
 #define NUMBER_OF_ROOMS MAP_W/SCREEN_W * MAP_H/SCREEN_H
 #define ROOMS_PER_ROW   MAP_H/SCREEN_H
 
